@@ -22,6 +22,7 @@
 */
 body {
   font-family: "Noto Sans SC", sans-serif;
+  background-color: rgb(190, 196, 249);
 }
 
 /* 
@@ -104,7 +105,7 @@ a:hover {
 }
 
 .navbar {
-  background-color: chocolate;
+  background-color: rgb(139, 149, 231);
 }
 /* 
     For your custom navbar, you can specify the unorderd list style.
@@ -123,7 +124,7 @@ a:hover {
   /* 
         For navbars use background color that stands out.
   */
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.146);
   text-align: center;
 }
 
@@ -133,7 +134,6 @@ a:hover {
 .navbar li {
   width: 150 px;
   background-color: #000;
-  border: 1px solid red;
   /* 
         Show the navbar elements next to each other instead of on top of each 
         other. 
