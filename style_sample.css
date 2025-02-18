@@ -22,6 +22,7 @@
 */
 body {
   font-family: "Noto Sans SC", sans-serif;
+  background-color: rgb(190, 196, 249);
 }
 
 /* 
@@ -104,7 +105,7 @@ a:hover {
 }
 
 .navbar {
-  background-color: chocolate;
+  background-color: rgb(139, 149, 231);
 }
 /* 
     For your custom navbar, you can specify the unorderd list style.
@@ -113,17 +114,12 @@ a:hover {
   /* 
         Remove bullet points.
   */
+  display: flex;
   list-style: none;
-  width: 500px;
+  width: flex;
+  background-color: #000a35;
   margin: 0 auto;
-  /* 
-        No padding.
-  */
-  padding: 0;
-  /* 
-        For navbars use background color that stands out.
-  */
-  background-color: black;
+  padding: 10;
   text-align: center;
 }
 
@@ -131,13 +127,10 @@ a:hover {
     Style individual list items.
 */
 .navbar li {
-  width: 150 px;
-  background-color: #000;
-  border: 1px solid red;
-  /* 
-        Show the navbar elements next to each other instead of on top of each 
-        other. 
-  */
+  display: flex;
+  margin: auto;
+  width: 200 px;
+  background-color: #000a35;
   padding: 10px;
   display: inline-block;
   line-height: 40px;
@@ -148,6 +141,7 @@ a:hover {
 */
 .navbar a {
   color: #fff;
+  padding: 100px;
   text-decoration: none;
 }
 
