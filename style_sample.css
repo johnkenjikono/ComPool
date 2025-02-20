@@ -208,3 +208,28 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+
+/*Footer & Page styling (Uses Flexbox)*/
+
+/* Ensure the page takes at least the full viewport height using flexbox*/
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the page is at least as tall as the viewport */
+  margin: 0; /* Removes default body margin */
+}
+
+/* This makes the main content expand and push the footer down */
+main {
+  flex: 1; /* Takes up all available space, pushing the footer down */
+  padding-bottom: 80px;
+}
+
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  color: rgb(48, 48, 48);
+}
