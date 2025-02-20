@@ -262,12 +262,3 @@ footer {
   height: auto;
   margin-bottom: 10px;
 }
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-h3 {
-  color: #007BFF; /* Nice blue for step number */
-}
