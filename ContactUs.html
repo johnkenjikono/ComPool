@@ -11,9 +11,7 @@
 </head>
 
 <body>
-    <h1>
-        WEBSITE NAME
-    </h1>
+    <h1> ComPool </h1>
     <div id="navbar" class="navbar">
         <nav>
             <ul>
@@ -24,4 +22,28 @@
             </ul>
         </nav>
     </div>
+
+    <h1>Contact Us</h1>
+    <p>Have questions, feedback, or need support? Reach out to us, and we'll get back to you as soon as possible!</p>
+
+    
+    <!--So that we can still have the UI but not the functionality yet-->
+    <form onsubmit="event.preventDefault(); alert('Backend is not set up yet!');">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+    
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required>
+    
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+    
+        <button type="submit">Send Message</button>
+    </form>
+        
+    
+
 </body>
