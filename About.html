@@ -8,6 +8,23 @@
     <title>COMP 333: Software Engineering</title>
     <link rel="stylesheet" href="style_sample.css" />
     <style>
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 0; /* Removed extra margin */
+            padding: 0px 0; /* Slight padding for spacing */
+        }
+        .logo-container img {
+            width: 350px; /* Reduced width */
+            height: 100px; /* Reduced height */
+            object-fit: cover; /* Crops instead of stretching */
+            object-position: center; /* Keeps the focus centered */
+        }
+        .logo-container h1 {
+            font-size: 30px; /* Slightly smaller text */
+            margin: 0;
+        }
         .team-section {
             display: flex;
             flex-direction: column;
@@ -30,21 +47,23 @@
         .team-name {
             font-weight: bold;
             font-size: 1.2em;
-            font-weight: 700;
         }
     </style>
 </head>
 
 <body>
-    <h1>
-        ComPool - Pool Money and Compete!
-    </h1>
+
+    <div class="logo-container">
+        <img src="Images/Logo3.png" alt="ComPool Logo">
+        <h1>- Pool Money and Compete! -</h1>
+    </div>
+
     <div id="navbar" class="navbar">
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="About.html">About</a></li>
-                <li><a href="Offers.html">Offers</a></li>
+                <li><a href="Offers.html">Get Started</a></li>
                 <li><a href="ContactUs.html">Contact Us</a></li>
             </ul>
         </nav>
@@ -56,31 +75,30 @@
             <img src="https://media.licdn.com/dms/image/v2/D4E03AQFJE-vFS-8E_g/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1724359423958?e=1745452800&v=beta&t=PDEVVDLWLpEM7oaAOgTgmXYEdkdgTLj2KccO338GG8A" alt="Here is a picture of Cory Reavy, co-founder and ideator of ComPool" class="team-photo">
             <div>
                 <div class="team-name">Cory Reavy - Co-founder</div>
-                <p class="team-description">First through the breach is Cory Reavy, a striking young savant from Mamaroneck New York. He enjoys sailing, rowing, and occasionally constructing a website. Once after not getting renumerated for a fantasy football win he wondered, is there a better way to do this? And thus Compool was born.</p>
+                <p class="team-description">First through the breach is Cory Reavy, a striking young savant from Mamaroneck, New York. He enjoys sailing, rowing, and occasionally constructing a website. Once, after not getting remunerated for a fantasy football win, he wondered, "Is there a better way to do this?" And thus, ComPool was born.</p>
             </div>
         </div>
         <div class="team-member">
             <img src="https://media.licdn.com/dms/image/v2/D4E03AQE22aFt5bm_qw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1698604488440?e=1745452800&v=beta&t=UnFcZlSU0ji6QwxMp6gBTwsIDsXtJWrg7FszpaTCQSk" alt="Here is a picture of Pierce, co-founder of ComPool" class="team-photo">
             <div>
                 <div class="team-name">Pierce - Co-founder</div>
-                <p class="team-description">Hailing from Rye, New York, Pierce Buckner Wolfson enjoys eating, working out, and wearing his glasses. He has been called four eyes before, thank you for asking. Pierce oversees CWA (Compliance With Assignment) and personally mentors young internists.</p>
+                <p class="team-description">Hailing from Rye, New York, Pierce Buckner Wolfson enjoys eating, working out, and wearing his glasses. He has been called "four eyes" before—thank you for asking. Pierce oversees CWA (Compliance With Assignment) and personally mentors young internists.</p>
             </div>
         </div>
         <div class="team-member">
             <img src="https://media.licdn.com/dms/image/v2/D4E03AQHHAiydJds5zw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1685411749125?e=1745452800&v=beta&t=KUK8oPr7QaOc8BSdU09sF9CzJQE9WOQ8TijXpt_j-VA" alt="Here is a picture of Kenji, Senior Intern" class="team-photo">
             <div>
-                <div class="team-name"><strong>Kenji - Co-founder</strong></div>
-                <p class="team-description">Kenji Kono also grew up in Mamaroneck New York. He often found he longed for a purpose in life, and often drifted aimlessly. When he heard about the ComPool idea, he was thrilled to get his foot in the door at the highest-potential newly made html site in all of Middletown. Management congratulates Kenji on his promotion to Senior Intern.</p>
+                <div class="team-name">Kenji - Co-founder</div>
+                <p class="team-description">Kenji Kono also grew up in Mamaroneck, New York. He often found himself longing for a purpose in life and drifted aimlessly. When he heard about the ComPool idea, he was thrilled to get his foot in the door at the highest-potential newly made HTML site in all of Middletown. Management congratulates Kenji on his promotion to Senior Intern.</p>
             </div>
         </div>
     </div>
     
     <footer>
-        <div>&copy; 2025 ComPool. All rights reserved. </div>
+        <div>&copy; 2025 ComPool. All rights reserved.</div>
         <div>This site was designed and published as part of the COMP 333 Software Engineering class at Wesleyan University. This is an exercise.</div>
     </footer>
 
 </body>
-
 
 </html>
