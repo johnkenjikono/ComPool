@@ -262,3 +262,12 @@ footer {
   height: auto;
   margin-bottom: 10px;
 }
+
+.iframe {
+  width: 80%; /* Makes it responsive */
+  height: 500px; /* Adjust height as needed */
+  border: 1px solid #ddd; /* Light border for visibility */
+  border-radius: 8px; /* Rounded corners */
+  display: block;
+  margin: 20px auto; /* Centers the iframe */
+}
