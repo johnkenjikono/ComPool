@@ -165,3 +165,46 @@ iframe {
   height: 100%;
   border: dotted;
 }
+
+
+/* Style Forms on Contact us page*/
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px; /* Adjust width as needed */
+    margin: auto; /* Center the form */
+}
+
+label {
+    margin-top: 10px; /* Adds space above each label */
+    font-weight: bold;
+    display: block; /* Ensures the label is on its own line */
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: vertical; /* Allows vertical resizing */
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
