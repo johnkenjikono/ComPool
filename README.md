@@ -21,6 +21,6 @@ The repository contains the following important files and directories:
 
 ## 🛠 How to Run the Code
 This is a static website, so all you need to do is run the code locally in the browser or visit our website:  
-[ComPool Website](https://johnkenjikono.github.io/comp333--2-website/)
+[ComPool Website](https://johnkenjikono.github.io/ComPool/)
 
 #Note: Used Chatgpt to better style in markdown.
