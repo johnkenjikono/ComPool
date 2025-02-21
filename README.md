@@ -1,5 +1,3 @@
-#Comp333 HW 1 Website
-
 # ComPool - Pool Money and Compete!
 
 ## 🚀 About the Project
@@ -20,7 +18,9 @@ The repository contains the following important files and directories:
 - `style_sample.css` - The main CSS file used to style the website.
 
 ## 🛠 How to Run the Code
-This is a static website, so all you need to do is run the code locally in the browser or visit our website:  
-[ComPool Website](https://johnkenjikono.github.io/ComPool/)
+This is a static website, so all you need to do is run the code locally in the browser.
+Our website is out of date since github requires premium for it so you cannot use the website at this time 😕
 
-#Note: Used Chatgpt to better style in markdown.
+[//]: # (or visit our website: [ComPool Website](https://johnkenjikono.github.io/ComPool/))
+
+[//]: # (Used Chatgpt to better style in css and for guidance creating complicated HTML elements.)
