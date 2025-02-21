@@ -15,7 +15,12 @@ The repository contains the following important files and directories:
 - `About.html` - A page detailing the team behind ComPool.
 - `Offers.html` - Information about available offers and how users can participate.
 - `ContactUs.html` - A page containing contact information and support details.
+- `more-info.html` - A page containing FAQs, Testimonials, additional info, and useful links.
 - `style_sample.css` - The main CSS file used to style the website.
+- LICENSE - Contains our License file.
+- README - Contains our README with info.
+- TODO - Contains the HW requirements we have completed.
+- Images - A folder of the images we used in our website.
 
 ## 🛠 How to Run the Code
 This is a static website, so all you need to do is run the code locally in the browser.
