@@ -26,6 +26,4 @@ The repository contains the following important files and directories:
 This is a static website, so all you need to do is run the code locally in the browser.
 Our website is out of date since github requires premium for it so you cannot use the website at this time 😕
 
-[//]: # (or visit our website: [ComPool Website](https://johnkenjikono.github.io/ComPool/))
-
 [//]: # (Used Chatgpt to better style in css and for guidance creating complicated HTML elements.)
