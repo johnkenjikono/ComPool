@@ -2,7 +2,7 @@
 session_start();
 require 'db_connect.php';
 
-// Redirect if not logged in
+// Redirect to login page if not logged in
 if (!isset($_SESSION["username"])) {
     header("Location: login.php");
     exit();
@@ -11,7 +11,36 @@ if (!isset($_SESSION["username"])) {
 $username = $_SESSION["username"]; // Logged-in user
 $error = "";
 
-// Fetch all users for the members selection dropdown
+// Check if group ID is provided
+if (!isset($_GET["id"])) {
+    header("Location: index.php"); // Redirect if no ID is given
+    exit();
+}
+
+$group_id = intval($_GET["id"]); // Get group ID safely
+
+// Fetch group details
+$query = "SELECT group_name, username, group_size, members FROM groups WHERE id = ?";
+$stmt = $db->prepare($query);
+$stmt->bind_param("i", $group_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows == 0) {
+    echo "Group not found.";
+    exit();
+}
+
+$group = $result->fetch_assoc();
+$members_list = explode(",", $group["members"]); // Convert members string to array
+
+// Ensure only the group creator can update the group
+if ($group["username"] !== $username) {
+    echo "You do not have permission to edit this group.";
+    exit();
+}
+
+// Fetch all users for member selection
 $user_query = "SELECT username FROM users";
 $user_result = $db->query($user_query);
 
@@ -23,21 +52,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Ensure the creator is always included
     if (!in_array($username, $selected_members)) {
-        array_unshift($selected_members, $username); // Add creator to the start of the list
+        array_unshift($selected_members, $username);
     }
 
     // Check if selected members exceed group size
     if (count($selected_members) > $group_size) {
         $error = "You selected more members than the allowed group size!";
-    } elseif (empty($group_name) || $group_size < 1) {
-        $error = "All fields are required and group size must be greater then 1.";
+    } elseif (empty($group_name) || $group_size <= 0) {
+        $error = "All fields are required and group size must be a positive number.";
     } else {
         // Convert selected members array to comma-separated string
         $members = implode(",", $selected_members);
 
-        // Insert new group
-        $stmt = $db->prepare("INSERT INTO groups (group_name, username, group_size, members) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssis", $group_name, $username, $group_size, $members);
+        // Update group in database
+        $stmt = $db->prepare("UPDATE groups SET group_name = ?, group_size = ?, members = ? WHERE id = ?");
+        $stmt->bind_param("sisi", $group_name, $group_size, $members, $group_id);
 
         if ($stmt->execute()) {
             header("Location: index.php");
@@ -55,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Group - ComPool</title>
+    <title>Update Group - ComPool</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
         .container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; text-align: left; }
@@ -65,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script>
         function validateForm() {
             let size = document.getElementById("group_size").value;
-            let selectedMembers = document.getElementById("members").selectedOptions.length + 1; // +1 to account for creator
+            let selectedMembers = document.getElementById("members").selectedOptions.length + 1; // +1 for creator
 
             if (isNaN(size) || size <= 0) {
                 alert("Group size must be a positive number.");
@@ -82,22 +111,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <div class="container">
-    <h2>Add Group</h2>
+    <h2>Update Group</h2>
 
     <?php if ($error) echo "<p class='error'>$error</p>"; ?>
 
-    <form method="POST" action="add_group.php" onsubmit="return validateForm()">
+    <form method="POST" action="update_group.php?id=<?php echo $group_id; ?>" onsubmit="return validateForm()">
         <label for="group_name">Group Name:</label><br>
-        <input type="text" id="group_name" name="group_name" required><br><br>
+        <input type="text" id="group_name" name="group_name" value="<?php echo htmlspecialchars($group['group_name']); ?>" required><br><br>
 
-        <label for="group_size">Group Size (Remeber you are always included): </label><br>
-        <input type="number" id="group_size" name="group_size" required min="1"><br><br>
+        <label for="group_size">Group Size:</label><br>
+        <input type="number" id="group_size" name="group_size" value="<?php echo $group['group_size']; ?>" required min="1"><br><br>
 
-        <label for="members">Select Members (You can add more later):</label><br>
+        <label for="members">Select Members (You are always included):</label><br>
         <select name="members[]" id="members" multiple required>
             <?php while ($user = $user_result->fetch_assoc()): ?>
-                <?php if ($user["username"] !== $username): // Exclude creator from dropdown ?>
-                    <option value="<?php echo $user["username"]; ?>"><?php echo $user["username"]; ?></option>
+                <?php if ($user["username"] !== $username): ?>
+                    <option value="<?php echo $user["username"]; ?>" 
+                        <?php echo in_array($user["username"], $members_list) ? "selected" : ""; ?>>
+                        <?php echo $user["username"]; ?>
+                    </option>
                 <?php endif; ?>
             <?php endwhile; ?>
         </select><br><br>
