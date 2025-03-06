@@ -2,16 +2,16 @@
 session_start();
 require 'db_connect.php';
 
-// Redirect to login page if not logged in
+// Redirect if not logged in
 if (!isset($_SESSION["username"])) {
     header("Location: login.php");
     exit();
 }
 
-$username = $_SESSION["username"]; // Get logged-in user
+$username = $_SESSION["username"]; // Logged-in user
 
-// Fetch all groups from the database
-$query = "SELECT id, group_name, username FROM groups ORDER BY id ASC";
+// Fetch all groups
+$query = "SELECT id, group_name, username, group_size, members FROM groups ORDER BY id ASC";
 $result = $db->query($query);
 ?>
 
@@ -45,6 +45,8 @@ $result = $db->query($query);
             <th>ID</th>
             <th>Username</th>
             <th>Group Name</th>
+            <th>Group Size</th>
+            <th>Members</th>
             <th>Action</th>
         </tr>
 
@@ -53,9 +55,10 @@ $result = $db->query($query);
                 <td><?php echo $row["id"]; ?></td>
                 <td><?php echo htmlspecialchars($row["username"]); ?></td>
                 <td><?php echo htmlspecialchars($row["group_name"]); ?></td>
+                <td><?php echo $row["group_size"]; ?></td>
+                <td><?php echo htmlspecialchars($row["members"]); ?></td>
                 <td>
                     <a href="view_group.php?id=<?php echo $row["id"]; ?>">View</a>
-
                     <?php if ($row["username"] === $username): ?>
                         | <a href="update_group.php?id=<?php echo $row["id"]; ?>">Update</a>
                         | <a href="delete_group.php?id=<?php echo $row["id"]; ?>">Delete</a>
