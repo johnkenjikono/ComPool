@@ -14,10 +14,10 @@ if (!isset($_GET["id"])) {
     exit();
 }
 
-$group_id = intval($_GET["id"]); // Get the group ID from URL safely
+$group_id = intval($_GET["id"]); // Get the group ID safely
 
-// Fetch group details (parameterized)
-$query = "SELECT id, group_name, username FROM groups WHERE id = ?";
+// Fetch group details
+$query = "SELECT id, group_name, username, group_size, members FROM groups WHERE id = ?";
 $stmt = $db->prepare($query);
 $stmt->bind_param("i", $group_id);
 $stmt->execute();
@@ -29,6 +29,7 @@ if ($result->num_rows == 0) {
 }
 
 $group = $result->fetch_assoc();
+$members_list = explode(",", $group["members"]); // Convert members string to array
 ?>
 
 <!DOCTYPE html>
@@ -53,8 +54,16 @@ $group = $result->fetch_assoc();
     <h2>View Group</h2>
 
     <p><span class="bold">Group ID:</span> <?php echo $group["id"]; ?></p>
-    <p><span class="bold">Username:</span> <?php echo htmlspecialchars($group["username"]); ?></p>
     <p><span class="bold">Group Name:</span> <?php echo htmlspecialchars($group["group_name"]); ?></p>
+    <p><span class="bold">Created By:</span> <?php echo htmlspecialchars($group["username"]); ?></p>
+    <p><span class="bold">Group Size:</span> <?php echo $group["group_size"]; ?></p>
+
+    <p><span class="bold">Members:</span></p>
+    <ul>
+        <?php foreach ($members_list as $member): ?>
+            <li><?php echo htmlspecialchars($member); ?></li>
+        <?php endforeach; ?>
+    </ul>
 
     <a href="index.php">Back</a>
 </div>
