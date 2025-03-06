@@ -25,3 +25,4 @@ CREATE TABLE IF NOT EXISTS groups (
 );
 
 
+[//]: # (Used Chatgpt to adhere to general design principals and best practices (specifically helped a lot with fixing our sql queries so that they were parameterized), as well as some other fixes and optimizations.)
