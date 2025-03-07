@@ -90,7 +90,7 @@ if ($db->connect_error) {
 ### 🔹 4️⃣ Running the Web Application
 Once everything is set up, open your browser and go to:
 ```
-http://localhost/index.php
+http://localhost/comp333--2-website/
 ```
 📌 **If your file path is slightly different, adjust accordingly.**
 
