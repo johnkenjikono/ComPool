@@ -17,14 +17,17 @@
 */
 body {
   background-color: rgb(190, 196, 249);
+  font-family: sans-serif;
+  text-align: center;
 }
 
 /* 
     All text in paragraphs should be blue.
 */
-p {
-  color: rgb(0, 0, 0);
-}
+p, h1, h2, h3, h4, h5, h6, ul, ol {
+    text-align: center;
+    font-family: sans-serif;
+  }
 
 /* 
     You can refer in Style Sheets to classes using the dot .
@@ -240,7 +243,23 @@ footer {
   margin: 20px auto; /* Centers the iframe */
 }
 
+.login-button {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  padding: 15px 25px;
+  background-color: #4B0082;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 18px;
+}
 
+.login-button:hover {
+  background-color: #9370DB;
+}
 
 /*About us page styling*/
 .logo-container {
