@@ -13,14 +13,12 @@ $error = "";
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $userid = trim($_POST["userid"]); // Match class example's naming
+    $userid = trim($_POST["userid"]);
     $password = trim($_POST["password"]);
 
-    // Basic validation
     if (empty($userid) || empty($password)) {
         $error = "All fields are required.";
     } else {
-        // Use placeholders in the SQL statement (parameterized)
         $sql = "SELECT password FROM users WHERE username = ?";
         $stmt = mysqli_prepare($db, $sql);
         mysqli_stmt_bind_param($stmt, "s", $userid);
@@ -28,10 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = mysqli_stmt_get_result($stmt);
 
         if ($row = mysqli_fetch_assoc($result)) {
-            // Verify hashed password
             if (password_verify($password, $row["password"])) {
-                $_SESSION["username"] = $userid; // Store session
-                header("Location: index.php"); // Redirect to dashboard
+                $_SESSION["username"] = $userid;
+                header("Location: index.php");
                 exit();
             } else {
                 $error = "Wrong User ID or password.";
@@ -50,14 +47,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - ComPool</title>
+    <link rel="stylesheet" href="style_sample.css">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
-        .error { color: red; }
+        .login-button {
+            position: absolute;
+            top: 10px;
+            right: 30px;
+            padding: 15px 25px;
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .login-button:hover {
+            background-color: #9370DB;
+        }
     </style>
 </head>
 <body>
 
+<!-- Header -->
+<div class="logo-container">
+    <img src="Images/Logo3.png" alt="ComPool Logo">
+    <h1 style="text-align: center;">Pool Money and Compete!</h1>
+</div>
+
+<div class="navbar">
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="ContactUs.html">Contact Us</a></li>
+        </ul>
+    </nav>
+</div>
+
+
+<!-- Main Login Section -->
 <div class="container">
     <h2>Login to ComPool</h2>
 
@@ -70,12 +100,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br><br>
 
-        <button type="submit">Login</button>
-        <button type="reset">Reset</button>  <!-- Reset button to clear input fields -->
+        <button type="submit" class="login-button">Login</button>
+        <button type="reset">Reset</button>
     </form>
 
     <p>Don't have an account? <a href="register.php">Register here</a></p>
 </div>
+
+<!-- Footer -->
+<footer>
+    <div>&copy; 2025 ComPool. All rights reserved.</div>
+    <div>This site was designed and published as part of the COMP 333 Software Engineering class at Wesleyan University. This is an exercise.</div>
+</footer>
 
 </body>
 </html>
