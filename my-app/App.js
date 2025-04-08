@@ -9,7 +9,7 @@ import { styles } from './styles'; // Shared global styles
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import AboutScreen from './screens/AboutScreen';
-import ContactUsScreen from './screens/ContactUsScreen';
+// import ContactUsScreen from './screens/ContactUsScreen'; removed contact screen will be used later
 import LoginScreen from './screens/LoginScreen';
 import GroupScreen from './screens/GroupScreen';
 import CreateGroupScreen from './screens/CreateGroupScreen';
@@ -49,21 +49,29 @@ export default function App() {
 
       {/* Tab Navigation */}
       <Tab.Navigator>
-        {/* Public tabs available to everyone */}
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="About" component={AboutScreen} />
-        <Tab.Screen name="Contact" component={ContactUsScreen} />
-        <Tab.Screen name="Login">
-          {() => <LoginScreen setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} />}
-        </Tab.Screen>
 
-        {/* Groups tab only appears when logged in */}
+        {/* Show Login and Register tabs only when logged out */}
+        {!isLoggedIn && (
+          <>
+            <Tab.Screen name="Login">
+              {() => <LoginScreen setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} />}
+            </Tab.Screen>
+            <Tab.Screen name="Register">
+              {() => <RegisterScreen setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} />}
+            </Tab.Screen>
+          </>
+        )}
+
+        {/* Show Groups only if logged in */}
         {isLoggedIn && (
           <Tab.Screen name="Groups">
             {() => <GroupStackScreen username={username} />}
           </Tab.Screen>
         )}
       </Tab.Navigator>
+
     </NavigationContainer>
   );
 }

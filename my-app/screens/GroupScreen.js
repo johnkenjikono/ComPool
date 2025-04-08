@@ -3,15 +3,20 @@ import { View, Text, FlatList, ActivityIndicator, Button, Alert } from 'react-na
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles';
 import { BASE_URL } from '../config'; // Centralized base URL
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 export default function GroupScreen({ username }) {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    fetchGroups();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchGroups();
+    }, [])
+  );
+  
 
   const fetchGroups = async () => {
     try {
@@ -91,6 +96,15 @@ export default function GroupScreen({ username }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Groups</Text>
+  
+      {/* Add Create Group button at the top */}
+      <View style={{ marginVertical: 10 }}>
+        <Button
+          title="Create New Group"
+          onPress={() => navigation.navigate('CreateGroup')}
+        />
+      </View>
+  
       {loading ? (
         <ActivityIndicator size="large" />
       ) : (
@@ -102,4 +116,5 @@ export default function GroupScreen({ username }) {
       )}
     </View>
   );
+  
 }
