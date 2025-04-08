@@ -64,7 +64,7 @@ export default function GroupScreen({ username }) {
   };
 
   const handleEdit = (group) => {
-    navigation.navigate('CreateGroup', {
+    navigation.navigate('CreateGroupScreen', {
       editMode: true,
       group,
     });
@@ -101,7 +101,7 @@ export default function GroupScreen({ username }) {
       <View style={{ marginVertical: 10 }}>
         <Button
           title="Create New Group"
-          onPress={() => navigation.navigate('CreateGroup')}
+          onPress={() => navigation.navigate('CreateGroupScreen')}
         />
       </View>
   
