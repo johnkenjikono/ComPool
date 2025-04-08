@@ -35,8 +35,6 @@ export default function LoginScreen({ setIsLoggedIn, setUsername }) {
 
   return (
     <View style={styles.container}>
-      {/* Page title */}
-      <Text style={styles.title}>Login</Text>
 
       {/* Username input field */}
       <TextInput
