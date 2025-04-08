@@ -1,5 +1,6 @@
 const BASE_URL = 'http:/172.21.198.34/index.php'; // replace with your actual IP
 
+//checking user exists
 export async function checkUserExists(username) {
   try {
     const response = await fetch(`${BASE_URL}/user/list?username=${encodeURIComponent(username)}`);

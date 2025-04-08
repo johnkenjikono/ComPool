@@ -1,12 +1,16 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
-import {styles} from "../styles"
+import { styles } from "../styles"; // Shared styles used across all screens
 
+// The About screen introduces the team behind the app.
+// It uses ScrollView so the full content can be scrolled on smaller devices.
 export default function AboutScreen() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {/* Page title */}
       <Text style={styles.title}>Meet the Team!</Text>
 
+      {/* Member 1: Cory */}
       <View style={styles.member}>
         <Image
           style={styles.photo}
@@ -18,6 +22,7 @@ export default function AboutScreen() {
         </Text>
       </View>
 
+      {/* Member 2: Pierce */}
       <View style={styles.member}>
         <Image
           style={styles.photo}
@@ -29,6 +34,7 @@ export default function AboutScreen() {
         </Text>
       </View>
 
+      {/* Member 3: Kenji */}
       <View style={styles.member}>
         <Image
           style={styles.photo}
@@ -40,6 +46,7 @@ export default function AboutScreen() {
         </Text>
       </View>
 
+      {/* Footer note */}
       <View style={styles.footer}>
         <Text>© 2025 ComPool. All rights reserved.</Text>
         <Text style={styles.footerNote}>
