@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import {styles} from "../styles"
+import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { checkUserExists } from '../api/userApi';
+import { styles } from '../styles';
 
 export default function LoginScreen({ setIsLoggedIn, setUsername }) {
   const [usernameInput, setUsernameInput] = useState('');
@@ -8,10 +9,8 @@ export default function LoginScreen({ setIsLoggedIn, setUsername }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`http://192.168.1.42/index.php/user/list?username=${encodeURIComponent(usernameInput)}`);
-      const data = await response.json();
-
-      if (Array.isArray(data) && data.length > 0) {
+      const exists = await checkUserExists(usernameInput);
+      if (exists) {
         Alert.alert('Login Successful', `Welcome ${usernameInput}`);
         setUsername(usernameInput);
         setIsLoggedIn(true);

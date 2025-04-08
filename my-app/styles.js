@@ -136,4 +136,14 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     textAlignVertical: 'top',
   },
+
+  card: {
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 6,
+    marginBottom: 12,
+    backgroundColor: '#f9f9f9',
+  }
+  
 });
