@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Header -->
 <div class="logo-container">
-    <img src="Images/Logo3.png" alt="ComPool Logo">
+    <img src="../images/Logo3.png" alt="ComPool Logo">
     <h1 style="text-align: center;">Pool Money and Compete!</h1>
 </div>
 
