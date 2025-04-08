@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, ActivityIndicator, Button, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles';
+import { BASE_URL } from '../config'; // Centralized base URL
 
 export default function GroupScreen({ username }) {
   const [groups, setGroups] = useState([]);
@@ -14,7 +15,7 @@ export default function GroupScreen({ username }) {
 
   const fetchGroups = async () => {
     try {
-      const response = await fetch('http://172.21.198.34/index.php/group/list');
+      const response = await fetch(`${BASE_URL}/group/list`);
       const data = await response.json();
       setGroups(data);
     } catch (error) {
@@ -41,7 +42,7 @@ export default function GroupScreen({ username }) {
 
   const handleDelete = async (groupId) => {
     try {
-      const response = await fetch(`http://172.21.198.34/index.php/group/delete?id=${groupId}`, {
+      const response = await fetch(`${BASE_URL}/group/delete?id=${groupId}`, {
         method: 'DELETE',
       });
       const result = await response.json();
