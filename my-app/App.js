@@ -9,52 +9,43 @@ import { styles } from './styles'; // Shared global styles
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import AboutScreen from './screens/AboutScreen';
-// import ContactUsScreen from './screens/ContactUsScreen'; removed contact screen will be used later
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+// import ContactUsScreen from './screens/ContactUsScreen'; removed contact screen will be used later
 import GroupScreen from './screens/GroupScreen';
 import CreateGroupScreen from './screens/CreateGroupScreen';
-import RegisterScreen from './screens/RegisterScreen';
 
-
-// Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
-
-// Stack Navigator for Groups tab (allows deeper navigation)
 const GroupStack = createNativeStackNavigator();
 
 function GroupStackScreen({ username }) {
   return (
     <GroupStack.Navigator screenOptions={{ headerShown: false }}>
-      <GroupStack.Screen name="Groups">
+      <GroupStack.Screen name="GroupsList">
         {() => <GroupScreen username={username} />}
       </GroupStack.Screen>
-      <GroupStack.Screen name="CreateGroup">
+      <GroupStack.Screen name="CreateGroupScreen">
         {() => <CreateGroupScreen username={username} />}
       </GroupStack.Screen>
     </GroupStack.Navigator>
   );
 }
 
-
-// App Root
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Whether user is logged in
-  const [username, setUsername] = useState('');        // Store current user's name
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
 
   return (
     <NavigationContainer>
-      {/* Static app header shown on all tabs */}
       <View style={styles.header}>
         <Text style={styles.title}>ComPool</Text>
         <Text style={styles.slogan}>Pool Money and Compete!</Text>
       </View>
 
-      {/* Tab Navigation */}
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="About" component={AboutScreen} />
 
-        {/* Show Login and Register tabs only when logged out */}
         {!isLoggedIn && (
           <>
             <Tab.Screen name="Login">
@@ -66,14 +57,12 @@ export default function App() {
           </>
         )}
 
-        {/* Show Groups only if logged in */}
         {isLoggedIn && (
           <Tab.Screen name="Groups">
             {() => <GroupStackScreen username={username} />}
           </Tab.Screen>
         )}
       </Tab.Navigator>
-
     </NavigationContainer>
   );
 }
