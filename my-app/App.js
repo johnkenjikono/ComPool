@@ -13,6 +13,8 @@ import AboutScreen from './screens/AboutScreen';
 import LoginScreen from './screens/LoginScreen';
 import GroupScreen from './screens/GroupScreen';
 import CreateGroupScreen from './screens/CreateGroupScreen';
+import RegisterScreen from './screens/RegisterScreen';
+
 
 // Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
