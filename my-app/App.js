@@ -3,28 +3,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {styles} from "./styles"
+import AboutScreen from './AboutScreen';
+import HomeScreen from './HomeScreen';
 
-// Simple screens
-function HomeScreen() {
-  return (
-    <View style={styles.screen}>
-      <Text>The easiest way to manage shared money among friends. No stress. No confusion. Just seamless group finances.</Text>
-    </View>
-  );
-}
-
-function AboutScreen() {
-  return (
-    <View style={styles.screen}>
-      <Text>This is the About Page.</Text>
-    </View>
-  );
-}
 
 function ContactScreen() {
   return (
     <View style={styles.screen}>
-      <Text>Contact Us at: compool@example.com</Text>
+      <Text>Contact Us</Text>
     </View>
   );
 }
