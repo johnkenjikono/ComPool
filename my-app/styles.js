@@ -20,4 +20,105 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+ container: {
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  logo: {
+    width: 200,
+    height: 100,
+    resizeMode: 'contain',
+  },
+  slogan: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 16,
+    marginVertical: 20,
+    textAlign: 'center',
+  },
+  mainImage: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'contain',
+    marginBottom: 30,
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginVertical: 15,
+  },
+  stepsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 30,
+  },
+  step: {
+    alignItems: 'center',
+    width: '30%',
+  },
+  stepIcon: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain',
+  },
+  stepTitle: {
+    fontWeight: 'bold',
+    marginTop: 5,
+  },
+  bulletList: {
+    paddingLeft: 10,
+    marginBottom: 30,
+  },
+  footer: {
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+    paddingTop: 15,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  member: {
+    marginBottom: 30,
+    alignItems: 'center',
+  },
+  photo: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    marginBottom: 10,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 5,
+  },
+  description: {
+    fontSize: 14,
+    textAlign: 'center',
+    paddingHorizontal: 10,
+  },
+  footer: {
+    marginTop: 40,
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+    paddingTop: 15,
+    alignItems: 'center',
+  },
+  footerNote: {
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 5,
+    color: '#555',
+  },
 });

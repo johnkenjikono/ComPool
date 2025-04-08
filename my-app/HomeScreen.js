@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import {styles} from "./styles"
 
 export default function HomeScreen() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Logo & Slogan */}
       <View style={styles.logoContainer}>
-        <Image source={require('./assets/logo.png')} style={styles.logo} />
+        <Image source={require('./assets/Logo3.png')} style={styles.logo} />
         <Text style={styles.slogan}>Pool Money and Compete!</Text>
       </View>
 
@@ -16,7 +17,7 @@ export default function HomeScreen() {
         confusion. Just seamless group finances.
       </Text>
       <Image
-        source={require('./assets/gfmi-tokenization.png')}
+        source={require('./assets/gfmi-tokenization.jpg-removebg-preview.png')}
         style={styles.mainImage}
       />
 
@@ -61,68 +62,3 @@ export default function HomeScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  logo: {
-    width: 200,
-    height: 100,
-    resizeMode: 'contain',
-  },
-  slogan: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    marginVertical: 20,
-    textAlign: 'center',
-  },
-  mainImage: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'contain',
-    marginBottom: 30,
-  },
-  sectionTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginVertical: 15,
-  },
-  stepsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 30,
-  },
-  step: {
-    alignItems: 'center',
-    width: '30%',
-  },
-  stepIcon: {
-    width: 60,
-    height: 60,
-    resizeMode: 'contain',
-  },
-  stepTitle: {
-    fontWeight: 'bold',
-    marginTop: 5,
-  },
-  bulletList: {
-    paddingLeft: 10,
-    marginBottom: 30,
-  },
-  footer: {
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    paddingTop: 15,
-    alignItems: 'center',
-  },
-});
