@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {styles} from "./styles"
 import AboutScreen from './AboutScreen';
 import HomeScreen from './HomeScreen';
+import ContactUs from './ContactUsScreen';
 
 
 function ContactScreen() {
@@ -29,7 +30,7 @@ export default function App() {
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="About" component={AboutScreen} />
-        <Tab.Screen name="Contact Us" component={ContactScreen} />
+        <Tab.Screen name="Contact Us" component={ContactUs} />
       </Tab.Navigator>
     </NavigationContainer>
   );
