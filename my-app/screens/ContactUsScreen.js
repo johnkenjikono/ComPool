@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet, ScrollView, Image } from 'react-native';
-import {styles} from "./styles"
+import {styles} from "../styles"
 
 const ContactUs = () => {
   const handleSubmit = (event) => {
