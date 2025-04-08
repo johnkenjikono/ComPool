@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
-import {styles} from "./styles"
+import {styles} from "../styles"
 
 export default function HomeScreen() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Logo & Slogan */}
       <View style={styles.logoContainer}>
-        <Image source={require('./assets/Logo3.png')} style={styles.logo} />
+        <Image source={require('../assets/Logo3.png')} style={styles.logo} />
         <Text style={styles.slogan}>Pool Money and Compete!</Text>
       </View>
 
@@ -17,7 +17,7 @@ export default function HomeScreen() {
         confusion. Just seamless group finances.
       </Text>
       <Image
-        source={require('./assets/gfmi-tokenization.jpg-removebg-preview.png')}
+        source={require('../assets/gfmi-tokenization.jpg-removebg-preview.png')}
         style={styles.mainImage}
       />
 
@@ -25,17 +25,17 @@ export default function HomeScreen() {
       <Text style={styles.sectionTitle}>How It Works</Text>
       <View style={styles.stepsContainer}>
         <View style={styles.step}>
-          <Image source={require('./assets/teamwork.png')} style={styles.stepIcon} />
+          <Image source={require('../assets/teamwork.png')} style={styles.stepIcon} />
           <Text style={styles.stepTitle}>Step 1</Text>
           <Text>Create a Pool</Text>
         </View>
         <View style={styles.step}>
-          <Image source={require('./assets/add-group.png')} style={styles.stepIcon} />
+          <Image source={require('../assets/add-group.png')} style={styles.stepIcon} />
           <Text style={styles.stepTitle}>Step 2</Text>
           <Text>Invite Friends</Text>
         </View>
         <View style={styles.step}>
-          <Image source={require('./assets/soccer-player.png')} style={styles.stepIcon} />
+          <Image source={require('../assets/soccer-player.png')} style={styles.stepIcon} />
           <Text style={styles.stepTitle}>Step 3</Text>
           <Text>Contribute & Compete</Text>
         </View>
