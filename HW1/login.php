@@ -48,33 +48,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - ComPool</title>
     <link rel="stylesheet" href="style_sample.css">
-    <style>
-        .login-button {
-            position: absolute;
-            top: 10px;
-            right: 30px;
-            padding: 15px 25px;
-            background-color: #4B0082;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .login-button:hover {
-            background-color: #9370DB;
-        }
-    </style>
+    
 </head>
 <body>
-
 <!-- Header -->
-<div class="logo-container">
-    <img src="../images/Logo3.png" alt="ComPool Logo">
-    <h1 style="text-align: center;">Pool Money and Compete!</h1>
-</div>
+<a href="login.php" class="login-button">Login</a>
+    <div class="logo-container">
+        <img src="../images/Logo3.png" alt="ComPool Logo">
+        <h1 style="text-align: center;">Pool Money and Compete!</h1>
+    </div>
 
 <div class="navbar">
     <nav>
@@ -100,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br><br>
 
-        <button type="submit" class="login-button">Login</button>
+        <button type="submit" >Login</button>
         <button type="reset">Reset</button>
     </form>
 
