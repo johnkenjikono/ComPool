@@ -1,4 +1,4 @@
-const BASE_URL = 'http:/172.21.198.34/index.php'; // replace with your actual IP
+import { BASE_URL } from '../config';
 
 // Checking user exists
 export async function checkUserExists(username) {
