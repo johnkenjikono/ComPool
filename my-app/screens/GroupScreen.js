@@ -1,51 +1,98 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
-import { styles } from '../styles'; // Shared stylesheet for consistent design
+import { View, Text, FlatList, ActivityIndicator, Button, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { styles } from '../styles';
 
-// This screen fetches and displays all groups from the backend.
-// It uses FlatList for efficient rendering of dynamic lists.
 export default function GroupScreen({ username }) {
-  const [groups, setGroups] = useState([]);         // Stores group data from the backend
-  const [loading, setLoading] = useState(true);     // Used to show a loading spinner while fetching data
+  const [groups, setGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
-  // Runs once on component mount
   useEffect(() => {
     fetchGroups();
   }, []);
 
-  // Fetches group data from REST API
   const fetchGroups = async () => {
     try {
-      // NOTE: Replace with your actual IP if it changes
       const response = await fetch('http://172.21.198.34/index.php/group/list');
       const data = await response.json();
-      setGroups(data); // Store group data in state
+      setGroups(data);
     } catch (error) {
       console.error('Error fetching groups:', error);
     } finally {
-      setLoading(false); // Hide loading spinner after fetch completes
+      setLoading(false);
     }
   };
 
-  // Renders each group card with basic info
-  const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Text style={styles.title}>{item.group_name}</Text>
-      <Text style={styles.description}>Creator: {item.username}</Text>
-      <Text style={styles.description}>Size: {item.group_size}</Text>
-      <Text style={styles.description}>Members: {item.members}</Text>
-    </View>
-  );
+  const confirmDelete = (groupId) => {
+    Alert.alert(
+      'Delete Group',
+      'Are you sure you want to delete this group?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => handleDelete(groupId),
+        },
+      ]
+    );
+  };
+
+  const handleDelete = async (groupId) => {
+    try {
+      const response = await fetch(`http://172.21.198.34/index.php/group/delete?id=${groupId}`, {
+        method: 'DELETE',
+      });
+      const result = await response.json();
+      if (result.success) {
+        Alert.alert('Group deleted');
+        fetchGroups(); // refresh list
+      } else {
+        Alert.alert('Error', 'Could not delete group.');
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      Alert.alert('Error', 'Failed to delete group.');
+    }
+  };
+
+  const handleEdit = (group) => {
+    navigation.navigate('CreateGroup', {
+      editMode: true,
+      group,
+    });
+  };
+
+  const renderItem = ({ item }) => {
+    const isCreator = item.username === username;
+    return (
+      <View style={styles.card}>
+        <Text style={styles.title}>{item.group_name}</Text>
+        <Text style={styles.description}>Creator: {item.username}</Text>
+        <Text style={styles.description}>Size: {item.group_size}</Text>
+        <Text style={styles.description}>Members: {item.members}</Text>
+
+        {isCreator && (
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+            <View style={{ flex: 1, marginRight: 5 }}>
+              <Button title="Edit Group" onPress={() => handleEdit(item)} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Button title="Delete Group" color="red" onPress={() => confirmDelete(item.id)} />
+            </View>
+          </View>
+        )}
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Groups</Text>
-
-      {/* Show spinner while loading */}
       {loading ? (
         <ActivityIndicator size="large" />
       ) : (
-        // Renders all groups once loading is complete
         <FlatList
           data={groups}
           keyExtractor={(item) => item.id.toString()}
