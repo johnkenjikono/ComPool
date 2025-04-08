@@ -8,7 +8,7 @@ import HomeScreen from './screens/HomeScreen';
 import AboutScreen from './screens/AboutScreen';
 import ContactUsScreen from './screens/ContactUsScreen';
 import LoginScreen from './screens/LoginScreen';
-// import GroupScreen from './screens/GroupScreen'; // coming next!
+import GroupScreen from './screens/GroupScreen';
 
 const Tab = createBottomTabNavigator();
 
