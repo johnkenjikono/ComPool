@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import {styles} from "./styles"
 
 export default function AboutScreen() {
   return (
@@ -48,49 +49,3 @@ export default function AboutScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  member: {
-    marginBottom: 30,
-    alignItems: 'center',
-  },
-  photo: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    marginBottom: 10,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 5,
-  },
-  description: {
-    fontSize: 14,
-    textAlign: 'center',
-    paddingHorizontal: 10,
-  },
-  footer: {
-    marginTop: 40,
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    paddingTop: 15,
-    alignItems: 'center',
-  },
-  footerNote: {
-    fontSize: 12,
-    textAlign: 'center',
-    marginTop: 5,
-    color: '#555',
-  },
-});
