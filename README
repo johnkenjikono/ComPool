@@ -1,0 +1,179 @@
+# 🏆 ComPool - Pool Money and Compete!
+
+ComPool is a mobile and web application that allows users to create and manage pooled money groups with friends.
+
+---
+
+## 📂 Project Overview
+- This project is **HW #3** (mobile frontend connected to the backend).
+- Web frontend and backend are continued from **HW #2**, located in the same repo.
+
+---
+
+## 🚀 Setting Up the Project
+
+### 🔹 1️⃣ Prerequisites
+Make sure the following tools are installed:
+- **XAMPP** (for running PHP and MySQL)
+- **Node.js** and **npm**
+- **Expo**
+- **Android Studio** (for emulator) or a physical Android/iOS device
+
+---
+
+### 🔹 2️⃣ Backend Setup (database same as HW2)
+
+#### 📁 Database Creation in phpMyAdmin
+- Start **XAMPP**, ensure **Apache** and **MySQL** are running
+- Open `http://localhost/phpmyadmin/`
+
+#### 🛠 Create Database and Tables
+```sql
+CREATE DATABASE IF NOT EXISTS `app-db`;
+USE `app-db`;
+
+CREATE TABLE IF NOT EXISTS users (
+    username VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS groups (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    group_name VARCHAR(100) NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    group_size INT NOT NULL CHECK (group_size > 0),
+    members TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
+);
+```
+
+
+#### 🧩 Backend code:
+The folder RestAPI has all files for the backend code. Take all files from this folder and copy them into your HTDOCS folder looking something like this
+
+htdocs/
+├── Controller/Api/
+│   ├── BaseController.php
+│   └── GroupController.php
+│   └── UserController.php
+│── Model/
+│   ├── Database.php
+│   ├── GroupModel.php
+│   └── UserModel.php
+├── index.php
+├── inc/
+│   ├── bootstrap.php
+│   └──  config.php
+
+```
+C:/xampp/htdocs/
+```
+Then open in browser:
+```
+http://localhost/<your-folder>/
+```
+config.php has your connection to the database locally
+<?php
+define("DB_HOST", "localhost");
+define("DB_USERNAME", "root");
+define("DB_PASSWORD", "");
+define("DB_DATABASE_NAME", "app-db");
+
+---
+
+## 📱 Running the Mobile App
+Open Andorid studio and Open a project Compool
+Start your android device
+
+Open terminal and
+cd into my-app from compool
+npm install
+npm run android
+---
+
+## 🔁 REST API Overview
+
+All backend endpoints are available locally via:
+```
+http://<YOUR-IP>/index.php/
+```
+✅ **Update `config.js` in the project to your IP address.**
+// config.js
+export const BASE_URL = 'http://yourIP/index.php';
+
+### 📄 Endpoints Used
+- `POST /user/create` — Register new user
+- `GET /user/list?username=...` — Check if user exists
+- `POST /group/create` — Create group
+- `GET /group/list` — Get all groups
+- `DELETE /group/delete?id=...` — Delete group
+- `PUT /group/update?id=...` — Update group
+
+📌 **All data is JSON encoded.**
+
+---
+
+## 🧪 Postman Screenshots
+Screenshots provided for:
+- GET `/user/list`
+- POST `/user/create`
+
+### Pierce
+![Pierce](images/PierceBWXampp.png)
+### Cory
+![Cory](images/CorneliusReavyXampp.jpg)
+### Kenji
+![Kenji](images/KenjiKonoXAMPP.png)
+
+---
+
+## ✅ Features Summary
+
+### 🔐 User Authentication
+- Login and Registration
+- Passwords hashed (PHP backend)
+- Re-entry confirmation on registration
+- Duplicate username protection
+
+### 👥 Group Management (CRUD)
+- View all groups
+- Create new groups
+- Edit group (only if creator)
+- Delete group (only if creator)
+
+### 🧠 Validations
+- Group size must be a positive integer
+- Group creator is auto-included
+- Cannot select more members than group size
+- Password must be ≥ 10 characters
+
+### 🧠 Persistent Login
+- AsyncStorage keeps user logged in
+- Auto-login on app restart
+- Logout clears session
+
+---
+
+## 📁 File Organization
+```
+my-app/
+├── screens/
+│   ├── HomeScreen.js
+│   ├── AboutScreen.js
+│   ├── LoginScreen.js
+│   ├── RegisterScreen.js
+│   ├── GroupScreen.js
+│   └── CreateGroupScreen.js
+├── api/
+│   └── userApi.js
+│   
+├── styles.js
+├── config.js
+├── App.js
+```
+
+---
+
+Split: 50/25/25
+(Pierce/Cory/Kenji)
