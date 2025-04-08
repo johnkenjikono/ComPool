@@ -6,11 +6,6 @@ export const styles = StyleSheet.create({
     backgroundColor: '#1e90ff',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
   slogan: {
     fontSize: 16,
     color: '#f0f8ff',
@@ -76,12 +71,6 @@ export const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom: 30,
   },
-  footer: {
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    paddingTop: 15,
-    alignItems: 'center',
-  },
   title: {
     fontSize: 26,
     fontWeight: 'bold',
@@ -120,5 +109,31 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 5,
     color: '#555',
+  },
+   description: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  form: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    marginBottom: 15,
+    borderRadius: 5,
+  },
+  textArea: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    marginBottom: 15,
+    borderRadius: 5,
+    textAlignVertical: 'top',
   },
 });
