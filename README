@@ -50,8 +50,21 @@ CREATE TABLE IF NOT EXISTS groups (
 
 
 #### 🧩 Backend code:
-The folder RestAPI has all files for the backend code. Take all files from this folder and copy them into your HTDOCS folder looking something like this
+The folder RestAPI has all files for the backend code
 
+#### 📁 Place REST API in HTDOCS
+
+1. Locate the `RestAPI/` folder in this repository.
+
+2. Copy the **entire contents** of the `RestAPI/` folder into your `htdocs/` folder inside your local XAMPP directory.
+
+```
+C:/xampp/htdocs/
+```
+
+The final structure should look like:
+
+```
 htdocs/
 ├── Controller/Api/
 │   ├── BaseController.php
@@ -65,32 +78,16 @@ htdocs/
 ├── inc/
 │   ├── bootstrap.php
 │   └──  config.php
+```
 
+inc/config.php has your connection to the database locally change it accordingly
 ```
-C:/xampp/htdocs/
-```
-Then open in browser:
-```
-http://localhost/<your-folder>/
-```
-config.php has your connection to the database locally
 <?php
 define("DB_HOST", "localhost");
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "");
 define("DB_DATABASE_NAME", "app-db");
-
----
-
-## 📱 Running the Mobile App
-Open Andorid studio and Open a project Compool
-Start your android device
-
-Open terminal and
-cd into my-app from compool
-npm install
-npm run android
----
+```
 
 ## 🔁 REST API Overview
 
@@ -98,11 +95,34 @@ All backend endpoints are available locally via:
 ```
 http://<YOUR-IP>/index.php/
 ```
-✅ **Update `config.js` in the project to your IP address.**
-// config.js
-export const BASE_URL = 'http://yourIP/index.php';
 
-### 📄 Endpoints Used
+✅ **Update `config.js` in the project to your real IP address.**
+```
+// config.js
+export const BASE_URL = 'http://yourIPaddress/index.php';
+```
+---
+
+## 📱 Running the Mobile App
+Open Andorid studio and Open our project Compool wherever you downloaded it
+Start your android device
+
+Open terminal and
+cd into my-app from Compool
+```
+cd my-app
+```
+run:
+```
+npm install
+npm run android
+```
+
+And you should see Compool running on your virtual device!
+---
+
+
+### 📄 Rest API Endpoints Used
 - `POST /user/create` — Register new user
 - `GET /user/list?username=...` — Check if user exists
 - `POST /group/create` — Create group
@@ -116,15 +136,18 @@ export const BASE_URL = 'http://yourIP/index.php';
 
 ## 🧪 Postman Screenshots
 Screenshots provided for:
-- GET `/user/list`
-- POST `/user/create`
+- GET
+- POST
 
 ### Pierce
-![Pierce](images/PierceBWXampp.png)
+![Pierce](images/PiercePostman1.png)
+![Pierce](images/PiercePostman2.png)
 ### Cory
-![Cory](images/CorneliusReavyXampp.jpg)
+![Cory](images/CoryPostman1.png)
+![Cory](images/CoryPostman2.png)
 ### Kenji
-![Kenji](images/KenjiKonoXAMPP.png)
+![Kenji](images/KenjiPostman1.png)
+![Kenji](images/KenjiPostman2.png)
 
 ---
 
@@ -175,5 +198,8 @@ my-app/
 
 ---
 
-Split: 50/25/25
+Split: 36/32/32
 (Pierce/Cory/Kenji)
+
+
+[//]: # (Used Chatgpt to adhere to general design principals and best practices (specifically helped a lot with fixing our sql queries so that they were parameterized), as well as some other fixes (beautifying the README) and optimizations.)
