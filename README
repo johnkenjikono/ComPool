@@ -62,8 +62,8 @@ The folder RestAPI has all files for the backend code
 C:/xampp/htdocs/
 ```
 
-the file: `inc/config.php`, has your connection to the database locally change it accordingly
-you can create the file and copy and paste this in. (This is not in the git ignore since we copied a safe version of our rest API into the repo)
+the file: `inc/config.php`, has your connection to the database locally. Change it accordingly.
+You can create the file and copy and paste this in. (This is not in the git ignore since we copied a safe version of our rest API into the repo)
 ```
 <?php
 define("DB_HOST", "localhost");
