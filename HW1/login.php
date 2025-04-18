@@ -44,15 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="../images/favicon.png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - ComPool</title>
     <link rel="stylesheet" href="style_sample.css">
     <style>
         .login-button {
-            position: absolute;
-            top: 10px;
-            right: 30px;
             padding: 15px 25px;
             background-color: #4B0082;
             color: white;
@@ -61,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cursor: pointer;
             text-decoration: none;
             font-size: 18px;
+            margin: 10px;
         }
 
         .login-button:hover {
@@ -69,6 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
+<a href="login.php" class="login-button">Login</a>
+
 
 <!-- Header -->
 <div class="logo-container">
@@ -86,25 +87,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
 </div>
 
-
 <!-- Main Login Section -->
-<div class="container">
-    <h2>Login to ComPool</h2>
+<div class="form-wrapper">
+    <div class="form-box">
+        <h2>Login to ComPool</h2>
 
-    <?php if ($error) echo "<p class='error'>$error</p>"; ?>
+        <?php if ($error) echo "<p class='error'>$error</p>"; ?>
 
-    <form method="POST" action="login.php">
-        <label for="userid">Username:</label><br>
-        <input type="text" id="userid" name="userid" required><br><br>
+        <form method="POST" action="login.php" class="login-form">
+            <div class="form-group">
+                <label for="userid">Username:</label>
+                <input type="text" id="userid" name="userid" required>
+            </div>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
 
-        <button type="submit" class="login-button">Login</button>
-        <button type="reset">Reset</button>
-    </form>
+            <div class="button-group">
+                <button type="submit" class="form-login-button">Login</button>
+                <button type="reset">Reset</button>
+            </div>
+        </form>
 
-    <p>Don't have an account? <a href="register.php">Register here</a></p>
+        <p>Don't have an account? <a href="register.php">Register here</a></p>
+    </div>
 </div>
 
 <!-- Footer -->
