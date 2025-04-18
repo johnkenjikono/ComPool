@@ -51,6 +51,25 @@ p, h1, h2, h3, h4, h5, h6, ul, ol {
   color: rgb(5, 110, 10);
 }
 
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.form-box {
+  background-color: rgb(254, 228, 194);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  width: 80%; /* or 250px for fixed size */
+  margin: 0 auto 15px auto; /* center inputs + spacing below */
+  display: block;
+  max-width: 400px;
+  text-align: center;
+}
+
 .css-box-model-class {
   /* 
         Demonstrates the CSS Box Model
