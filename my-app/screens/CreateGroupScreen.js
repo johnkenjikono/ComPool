@@ -158,6 +158,46 @@ export default function CreateGroupScreen({ username }) {
           />
         </View>
       </View>
+      {/* Delete Button */}      
+      {isEdit && (
+        <View style={{ marginTop: 20 }}>
+          <Button
+            title="Delete Group"
+            color="red"
+            onPress={() => {
+              Alert.alert(
+                'Confirm Delete',
+                'Are you sure you want to delete this group?',
+                [
+                  { text: 'Cancel', style: 'cancel' },
+                  {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: async () => {
+                      try {
+                        const response = await fetch(`${BASE_URL}/group/delete?id=${groupData.id}`, {
+                          method: 'DELETE',
+                        });
+                        const result = await response.json();
+                        if (result.success) {
+                          Alert.alert('Group deleted');
+                          navigation.goBack();
+                        } else {
+                          Alert.alert('Error', 'Could not delete group.');
+                        }
+                      } catch (error) {
+                        console.error('Delete error:', error);
+                        Alert.alert('Error', 'Failed to delete group.');
+                      }
+                    },
+                  },
+                ]
+              );
+            }}
+          />
+        </View>
+      )}
+      
     </KeyboardAvoidingView>
   );
 }

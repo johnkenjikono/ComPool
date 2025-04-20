@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, FlatList, ActivityIndicator, Button, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { styles } from '../styles';
-import { BASE_URL } from '../config'; // Centralized base URL
-import { useFocusEffect } from '@react-navigation/native';
-import { useCallback } from 'react';
+import { BASE_URL } from '../config';
 
 export default function GroupScreen({ username }) {
   const [groups, setGroups] = useState([]);
@@ -16,7 +14,6 @@ export default function GroupScreen({ username }) {
       fetchGroups();
     }, [])
   );
-  
 
   const fetchGroups = async () => {
     try {
@@ -30,40 +27,7 @@ export default function GroupScreen({ username }) {
     }
   };
 
-  const confirmDelete = (groupId) => {
-    Alert.alert(
-      'Delete Group',
-      'Are you sure you want to delete this group?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => handleDelete(groupId),
-        },
-      ]
-    );
-  };
-
-  const handleDelete = async (groupId) => {
-    try {
-      const response = await fetch(`${BASE_URL}/group/delete?id=${groupId}`, {
-        method: 'DELETE',
-      });
-      const result = await response.json();
-      if (result.success) {
-        Alert.alert('Group deleted');
-        fetchGroups(); // refresh list
-      } else {
-        Alert.alert('Error', 'Could not delete group.');
-      }
-    } catch (error) {
-      console.error('Delete error:', error);
-      Alert.alert('Error', 'Failed to delete group.');
-    }
-  };
-
-  const handleEdit = (group) => {
+  const handleDetails = (group) => {
     navigation.navigate('CreateGroupScreen', {
       editMode: true,
       group,
@@ -80,13 +44,8 @@ export default function GroupScreen({ username }) {
         <Text style={styles.description}>Members: {item.members}</Text>
 
         {isCreator && (
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
-            <View style={{ flex: 1, marginRight: 5 }}>
-              <Button title="Edit Group" onPress={() => handleEdit(item)} />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Button title="Delete Group" color="red" onPress={() => confirmDelete(item.id)} />
-            </View>
+          <View style={{ marginTop: 10 }}>
+            <Button title="Details" onPress={() => handleDetails(item)} />
           </View>
         )}
       </View>
@@ -96,7 +55,7 @@ export default function GroupScreen({ username }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Groups</Text>
-  
+
       {/* Add Create Group button at the top */}
       <View style={{ marginVertical: 10 }}>
         <Button
@@ -104,7 +63,7 @@ export default function GroupScreen({ username }) {
           onPress={() => navigation.navigate('CreateGroupScreen')}
         />
       </View>
-  
+
       {loading ? (
         <ActivityIndicator size="large" />
       ) : (
@@ -116,5 +75,4 @@ export default function GroupScreen({ username }) {
       )}
     </View>
   );
-  
 }
