@@ -49,7 +49,10 @@ $result = $db->query($query);
         <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
 
         <h2>Group List</h2>
-        <a href="add_group.php" class="form-login-button">+ Add New Group</a>
+        <a href="add_group.php" class="add-group-button">
+            <img src="../images/teamwork.png" alt="Teamwork Image" class="button-image">
+            <span>+ Add New Group</span>
+        </a>
 
         <div class="table-container">
             <table class="styled-table">
