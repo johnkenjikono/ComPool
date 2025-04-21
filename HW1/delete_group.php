@@ -2,23 +2,20 @@
 session_start();
 require 'db_connect.php';
 
-// Redirect to login page if not logged in
 if (!isset($_SESSION["username"])) {
     header("Location: login.php");
     exit();
 }
 
-$username = $_SESSION["username"]; // Get logged-in user
+$username = $_SESSION["username"];
 
-// Check if group ID is provided
 if (!isset($_GET["id"])) {
-    header("Location: index.php"); // Redirect if no ID is given
+    header("Location: index.php");
     exit();
 }
 
-$group_id = intval($_GET["id"]); // Get group ID from URL safely
+$group_id = intval($_GET["id"]);
 
-// Fetch group details
 $query = "SELECT id, group_name, username FROM groups WHERE id = ?";
 $stmt = $db->prepare($query);
 $stmt->bind_param("i", $group_id);
@@ -32,28 +29,24 @@ if ($result->num_rows == 0) {
 
 $group = $result->fetch_assoc();
 
-// Restrict deletion to the group owner
 if ($group["username"] !== $username) {
     echo "You do not have permission to delete this group.";
     exit();
 }
 
-// Handle delete confirmation
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["confirm"])) {
-        // Delete group from database
         $stmt = $db->prepare("DELETE FROM groups WHERE id = ?");
         $stmt->bind_param("i", $group_id);
 
         if ($stmt->execute()) {
-            header("Location: index.php"); // Redirect to dashboard after deletion
+            header("Location: index.php");
             exit();
         } else {
             echo "Something went wrong. Please try again.";
         }
         $stmt->close();
     } else {
-        // Redirect back if "No" is clicked
         header("Location: index.php");
         exit();
     }
@@ -63,30 +56,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="../images/favicon.png" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete Group - ComPool</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; text-align: left; }
-        a { text-decoration: none; color: blue; }
-        .bold { font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="style_sample.css">
+    <!-- Header -->
+<div class="logo-container">
+    <img src="../images/Logo3.png" alt="ComPool Logo">
+    <h1 style="text-align: center;">Pool Money and Compete!</h1>
+</div>
+
+<div class="navbar">
+    <nav>
+        <ul>
+            <li><a href="index.php">Dashboard</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="ContactUs.html">Contact Us</a></li>
+        </ul>
+    </nav>
+</div>
 </head>
 <body>
 
-<div class="container">
-    <h2>You are logged in as user: <?php echo htmlspecialchars($username); ?></h2>
-    <a href="logout.php">Log Out</a>
 
-    <h2>Delete Group</h2>
-    <p>Are you sure you want to delete the group <span class="bold"><?php echo htmlspecialchars($group["group_name"]); ?></span>?</p>
+<main class="form-wrapper">
+    <div class="form-box">
+        <h2>Delete Group</h2>
+        <p>Are you sure you want to delete the group <span class="bold"><?php echo htmlspecialchars($group["group_name"]); ?></span>?</p>
 
-    <form method="POST" action="delete_group.php?id=<?php echo $group_id; ?>">
-        <button type="submit" name="confirm">Yes</button>
-        <a href="index.php">No</a>
-    </form>
-</div>
+        <form method="POST" action="delete_group.php?id=<?php echo $group_id; ?>" class="confirm-form">
+            <button type="submit" name="confirm" class="danger-button">Yes, Delete</button>
+            <a href="index.php" class="login-button">Cancel</a>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <div>&copy; 2025 ComPool. All rights reserved.</div>
+    <div>This site was designed and published as part of the COMP 333 Software Engineering class at Wesleyan University. This is an exercise.</div>
+</footer>
 
 </body>
 </html>

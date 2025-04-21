@@ -70,6 +70,37 @@ p, h1, h2, h3, h4, h5, h6, ul, ol {
   text-align: center;
 }
 
+/* Styling for the Add New Group button */
+.add-group-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  font-size: 18px;
+  padding: 15px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease; /* Smooth transition for scaling */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Space between the button and other elements */
+}
+
+.add-group-button:hover {
+  transform: scale(1.1); /* Enlarge the button on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
+}
+
+.add-group-button .button-image {
+  width: 30px; /* Image size */
+  height: auto;
+  margin-right: 10px; /* Space between image and text */
+}
+
+.add-group-button span {
+  font-weight: bold;
+}
+
 .css-box-model-class {
   /* 
         Demonstrates the CSS Box Model
