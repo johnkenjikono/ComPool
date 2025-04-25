@@ -54,40 +54,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - ComPool</title>
     <link rel="stylesheet" href="style_sample.css">
-    <style>
-        .login-button {
-            padding: 15px 25px;
-            background-color: #4B0082;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 18px;
-            margin: 10px;
-        }
-
-        .login-button:hover {
-            background-color: #9370DB;
-        }
-    </style>
 </head>
+
 <body>
-<a href="login.php" class="login-button">Login</a>
-
-
-<!-- Header -->
-<div class="logo-container">
-    <img src="images/Logo3.png" alt="ComPool Logo">
+    <a href="login.php" class="login-button">Login</a>
+    <div class="logo-container">
+    <a href="index.html">
+        <img src="images/Logo3.png" alt="ComPool Logo">
+    </a>
     <h1 style="text-align: center;">Pool Money and Compete!</h1>
-</div>
+    </div>
 
 <div class="navbar">
     <nav>
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="About.html">About</a></li>
-            <li><a href="ContactUs.html">Contact Us</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.php">Dashboard</a></li>
+                <li><a href="About.html">About</a></li>
         </ul>
     </nav>
 </div>
