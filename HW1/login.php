@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="../images/favicon.png" />
+    <link rel="icon" type="image/png" href="images/favicon.png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - ComPool</title>
@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Header -->
 <div class="logo-container">
-    <img src="../images/Logo3.png" alt="ComPool Logo">
+    <img src="images/Logo3.png" alt="ComPool Logo">
     <h1 style="text-align: center;">Pool Money and Compete!</h1>
 </div>
 
