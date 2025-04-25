@@ -99,15 +99,17 @@ $members_list = explode(",", $group["members"]);
 
 <!-- Header -->
 <div class="logo-container">
-    <img src="images/Logo3.png" alt="ComPool Logo">
+    <a href="index.html">
+        <img src="images/Logo3.png" alt="ComPool Logo">
+    </a>
     <h1 style="text-align: center;">Pool Money and Compete!</h1>
 </div>
 <div class="navbar">
     <nav>
         <ul>
+            <li><a href="index.html">Home</a></li>
             <li><a href="index.php">Dashboard</a></li>
             <li><a href="About.html">About</a></li>
-            <li><a href="ContactUs.html">Contact Us</a></li>
         </ul>
     </nav>
 </div>
