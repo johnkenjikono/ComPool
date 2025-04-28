@@ -13,6 +13,7 @@ if (!isset($_GET["id"])) {
 }
 
 $group_id = intval($_GET["id"]);
+$username = $_SESSION["username"];
 
 $query = "SELECT id, group_name, username, group_size, members FROM groups WHERE id = ?";
 $stmt = $db->prepare($query);
@@ -32,91 +33,47 @@ $members_list = explode(",", $group["members"]);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" type="image/png" href="../images/favicon.png" />
-
-    <meta charset="UTF-8">
-    <title>View Group - ComPool</title>
-    <link rel="stylesheet" href="style_sample.css">
-    <style>
-        .group-card {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 600px;
-            margin: 20px auto;
-        }
-
-        .group-section {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .group-section h3 {
-            color: #4B0082;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-
-        .group-section p {
-            margin: 8px 0;
-            color: #333;
-        }
-
-        .members-list {
-            list-style-type: disc;
-            padding-left: 20px;
-        }
-
-        .back-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #4B0082;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .back-button:hover {
-            background-color: #9370DB;
-        }
-
-        .user-info {
-            text-align: center;
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #555;
-        }
-    </style>
+<link rel="icon" type="image/png" href="images/favicon.png" />
+<meta charset="UTF-8">
+<title>View Group - ComPool</title>
+<link rel="stylesheet" href="style_sample.css">
 </head>
 <body>
 <a href="logout.php" class="login-button">Logout</a>
 
 <!-- Header -->
 <div class="logo-container">
-    <img src="../images/Logo3.png" alt="ComPool Logo">
+    <a href="index.html">
+        <img src="images/Logo3.png" alt="ComPool Logo">
+    </a>
     <h1 style="text-align: center;">Pool Money and Compete!</h1>
 </div>
 <div class="navbar">
     <nav>
         <ul>
+            <li><a href="index.html">Home</a></li>
             <li><a href="index.php">Dashboard</a></li>
             <li><a href="About.html">About</a></li>
-            <li><a href="ContactUs.html">Contact Us</a></li>
         </ul>
     </nav>
 </div>
 
 <main class="form-wrapper">
-    <div class="group-card">
+    <?php if ($group["username"] === $username || in_array($username, $members_list)): ?>
+        <div class="chat-container">
+        <h3><?php echo htmlspecialchars($group["group_name"]); ?></h3>
+            <div id="chat-box" class="chat-box"></div>
 
+            <form id="chat-form">
+                <input type="text" id="chat-message" placeholder="Type a message..." required />
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    <?php endif; ?>
+
+    <div class="group-card">
         <div class="user-info">
-            Logged in as <strong><?php echo htmlspecialchars($_SESSION["username"]); ?></strong>
+            Logged in as <strong><?php echo htmlspecialchars($username); ?></strong>
         </div>
 
         <div class="group-section">
@@ -145,6 +102,42 @@ $members_list = explode(",", $group["members"]);
     <div>&copy; 2025 ComPool. All rights reserved.</div>
     <div>This site was designed and published as part of the COMP 333 Software Engineering class at Wesleyan University. This is an exercise.</div>
 </footer>
+
+<!-- Javascript for chat updating -->
+<script>
+const groupId = <?php echo $group_id; ?>;
+
+function loadMessages() {
+    fetch('get_messages.php?group_id=' + groupId)
+        .then(res => res.json())
+        .then(data => {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML = '';
+            data.forEach(msg => {
+                const p = document.createElement('p');
+                p.innerHTML = `<strong>${msg.username}</strong>: ${msg.content} <span style="font-size: 0.8em; color: gray;">(${msg.timestamp})</span>`;
+                chatBox.appendChild(p);
+            });
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+}
+
+document.getElementById('chat-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const message = document.getElementById('chat-message').value;
+    fetch('send_message.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `group_id=${groupId}&message=${encodeURIComponent(message)}`
+    }).then(() => {
+        document.getElementById('chat-message').value = '';
+        loadMessages();
+    });
+});
+
+setInterval(loadMessages, 3000); // Poll every 3 seconds
+loadMessages(); // Initial load
+</script>
 
 </body>
 </html>
