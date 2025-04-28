@@ -135,6 +135,25 @@ And you should see Compool running on your virtual device!
 
 📌 **All data is JSON encoded.**
 
+## 📱 Running Tests
+Open terminal and cd into ComPool then:
+```
+cd HW1
+```
+```
+cd test-project
+```
+run:
+```
+php vendor/bin/phpunit tests
+```
+To run individual tests these are the following commands for each test respectively:
+```
+php vendor/bin/phpunit tests/TestGet_UserListTest.php
+php vendor/bin/phpunit tests/TestPost_CreateUserTest.php
+php vendor/bin/phpunit tests/TestPost_FailedLoginTest.php
+php vendor/bin/phpunit tests/TestPost_LoginUserTest.php
+```
 ---
 
 ## 🧪 Postman Screenshots
