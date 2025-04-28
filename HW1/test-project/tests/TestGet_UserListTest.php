@@ -2,7 +2,7 @@
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 
-class TestPost_CreateUser extends TestCase
+class TestGet_UserListTest extends TestCase
 {
     protected $client;
 
@@ -15,18 +15,10 @@ class TestPost_CreateUser extends TestCase
         ]);
     }
 
-    public function testPost_CreateUser()
+    public function testGet_UserList()
     {
-        $username = 'user_' . uniqid();
-
-        $response = $this->client->request('POST', 'index.php/user/create', [
-            'json' => [
-                'username' => $username,
-                'password' => 'newpass124'
-            ]
-        ]);
-
-        $this->assertEquals(201, $response->getStatusCode());
+        $response = $this->client->request('GET', 'index.php/user/list');
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     protected function tearDown(): void

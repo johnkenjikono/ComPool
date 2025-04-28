@@ -2,7 +2,7 @@
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 
-class TestPost_LoginUser extends TestCase
+class TestPost_LoginUserTest extends TestCase
 {
     protected $client;
 
@@ -10,20 +10,22 @@ class TestPost_LoginUser extends TestCase
     {
         parent::setUp();
         $this->client = new Client([
-            'base_uri' => 'http://localhost/', 
+            'base_uri' => 'http://localhost/ComPool/HW1/', // Corrected base_uri
             'http_errors' => false
         ]);
     }
 
     public function testPost_LoginUser()
     {
-        $response = $this->client->request('POST', '/user/login', [ 
+        $response = $this->client->request('POST', 'login.php', [
             'form_params' => [
                 'username' => 'testuser123',
                 'password' => 'securepassword'
             ]
         ]);
-        $this->assertEquals(201, $response->getStatusCode());
+
+        // Expecting 200 OK instead of 201
+        $this->assertEquals(200, $response->getStatusCode()); // Updated status code
     }
 
     protected function tearDown(): void

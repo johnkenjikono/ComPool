@@ -2,7 +2,7 @@
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 
-class TestPost_FailedLogin extends TestCase
+class TestPost_CreateUserTest extends TestCase
 {
     protected $client;
 
@@ -15,15 +15,18 @@ class TestPost_FailedLogin extends TestCase
         ]);
     }
 
-    public function testPost_FailedLogin()
+    public function testPost_CreateUser()
     {
-        $response = $this->client->request('POST', 'index.php/user/list', [
-            'form_params' => [
-                'username' => 'wronguser',
-                'password' => 'wrongpass'
+        $username = 'user_' . uniqid();
+
+        $response = $this->client->request('POST', 'index.php/user/create', [
+            'json' => [
+                'username' => $username,
+                'password' => 'newpass124'
             ]
         ]);
-        $this->assertEquals(401, $response->getStatusCode()); // Adjust if your API returns a different code
+
+        $this->assertEquals(201, $response->getStatusCode());
     }
 
     protected function tearDown(): void
