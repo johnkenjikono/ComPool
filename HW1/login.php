@@ -2,12 +2,6 @@
 session_start();
 require 'db_connect.php'; // Include database connection
 
-// Redirect logged-in users to the dashboard
-if (isset($_SESSION["username"])) {
-    header("Location: index.php");
-    exit();
-}
-
 // Initialize variables
 $error = "";
 
@@ -27,14 +21,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($row = mysqli_fetch_assoc($result)) {
             if (password_verify($password, $row["password"])) {
+                // Successful login, create session
                 $_SESSION["username"] = $userid;
-                header("Location: index.php");
-                exit();
+                $_SESSION["logged_in"] = true;
+
+                // Send 201 Created response indicating login session created
+                http_response_code(201);
+                echo json_encode(['message' => 'Login successful, session created']);
+                exit(); // Make sure to stop further execution
             } else {
-                $error = "Wrong User ID or password.";
+                // Incorrect password: return 401 Unauthorized with error message
+                http_response_code(401);
+                echo json_encode(['message' => 'Wrong User ID or password.']);
+                exit(); // Ensure no HTML is outputted and stop further execution
             }
         } else {
-            $error = "Wrong User ID or password.";
+            // User not found: return 401 Unauthorized with error message
+            http_response_code(401);
+            echo json_encode(['message' => 'Wrong User ID or password.']);
+            exit(); // Ensure no HTML is outputted and stop further execution
         }
         mysqli_stmt_close($stmt);
     }
@@ -106,3 +111,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
+?>
