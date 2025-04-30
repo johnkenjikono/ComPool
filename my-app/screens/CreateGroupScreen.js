@@ -12,6 +12,7 @@ export default function CreateGroupScreen({ username }) {
   // Check if we are editing an existing group (passed via route params)
   const isEdit = route.params?.editMode || false;
   const groupData = route.params?.group || null;
+  const isCreator = groupData?.username === username;
 
   // State for form fields
   const [groupName, setGroupName] = useState(groupData?.group_name || '');
@@ -22,7 +23,7 @@ export default function CreateGroupScreen({ username }) {
   const [selectedMembers, setSelectedMembers] = useState([]); // selected in dropdown
   const [open, setOpen] = useState(false); // dropdown open/closed
   const [dropdownItems, setDropdownItems] = useState([]); // dropdown choices
-
+  
   /**
    * Fetch all users from the backend, excluding the current user.
    * If in edit mode, pre-select the current group members (excluding self).
@@ -114,20 +115,22 @@ export default function CreateGroupScreen({ username }) {
       {/* Group Name Input */}
       <Text style={styles.label}>Group Name:</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, isEdit && { backgroundColor: '#f0f0f0' }]}
         value={groupName}
         onChangeText={setGroupName}
         placeholder="Enter group name"
+        editable={!isEdit} // disable input if editing
       />
 
       {/* Group Size Input */}
       <Text style={styles.label}>Group Size:</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, !isCreator && { backgroundColor: '#f0f0f0' }]}
         value={groupSize}
         onChangeText={setGroupSize}
         placeholder="Enter total group size"
         keyboardType="numeric"
+        editable={!isEdit || isCreator}
       />
 
       {/* Dropdown for members (not including self) */}
@@ -143,21 +146,66 @@ export default function CreateGroupScreen({ username }) {
         min={0}
         max={groupSize ? parseInt(groupSize) - 1 : 0}
         placeholder="Select group members"
-        style={{ marginBottom: 20 }}
+        style={[{ marginBottom: 20 }, !isCreator && { backgroundColor: '#f0f0f0' }]}
+        disabled={!isCreator}
       />
 
       {/* Back and Submit Buttons */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ flex: 1, marginRight: 8 }}>
+        <View style={{ flex: 1 }}>
           <Button title="Back" onPress={() => navigation.goBack()} />
         </View>
-        <View style={{ flex: 1 }}>
+
+        {isCreator && (
+          <View style={{ flex: 1, marginLeft: 8 }}>
+            <Button
+              title={isEdit ? 'Update Group' : 'Create Group'}
+              onPress={handleSubmit}
+            />
+          </View>
+        )}
+      </View>
+
+      {/* Delete Button */}      
+      {isEdit && isCreator && (
+        <View style={{ marginTop: 20 }}>
           <Button
-            title={isEdit ? 'Update Group' : 'Create Group'}
-            onPress={handleSubmit}
+            title="Delete Group"
+            color="red"
+            onPress={() => {
+              Alert.alert(
+                'Confirm Delete',
+                'Are you sure you want to delete this group?',
+                [
+                  { text: 'Cancel', style: 'cancel' },
+                  {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: async () => {
+                      try {
+                        const response = await fetch(`${BASE_URL}/group/delete?id=${groupData.id}`, {
+                          method: 'DELETE',
+                        });
+                        const result = await response.json();
+                        if (result.success) {
+                          Alert.alert('Group deleted');
+                          navigation.goBack();
+                        } else {
+                          Alert.alert('Error', 'Could not delete group.');
+                        }
+                      } catch (error) {
+                        console.error('Delete error:', error);
+                        Alert.alert('Error', 'Failed to delete group.');
+                      }
+                    },
+                  },
+                ]
+              );
+            }}
           />
         </View>
-      </View>
+      )}
+      
     </KeyboardAvoidingView>
   );
 }

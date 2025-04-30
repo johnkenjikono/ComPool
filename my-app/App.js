@@ -14,6 +14,9 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import GroupScreen from './screens/GroupScreen';
 import CreateGroupScreen from './screens/CreateGroupScreen';
+import GroupChatScreen from './screens/GroupChatScreen';
+
+
 
 const Tab = createBottomTabNavigator();
 const GroupStack = createNativeStackNavigator();
@@ -27,6 +30,7 @@ function GroupStackScreen({ username }) {
       <GroupStack.Screen name="CreateGroupScreen">
         {() => <CreateGroupScreen username={username} />}
       </GroupStack.Screen>
+      <GroupStack.Screen name="GroupChat" component={GroupChatScreen} />
     </GroupStack.Navigator>
   );
 }
