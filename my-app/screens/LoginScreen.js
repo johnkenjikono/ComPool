@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
 import { checkUserExists } from '../api/userApi'; // REST API function to verify user
+import { loginUser } from '../api/userApi'; // <-- NEW import, not checkUserExists
 import { styles } from '../styles'; // Shared styling for consistency
 
 // LoginScreen handles user login logic and UI.
@@ -15,7 +16,7 @@ export default function LoginScreen({ setIsLoggedIn, setUsername }) {
   const handleLogin = async () => {
     try {
       // Check if the user exists in the database
-      const exists = await checkUserExists(usernameInput);
+      const exists = await loginUser(usernameInput, password);
 
       if (exists) {
         // If found, show success alert and update state
@@ -24,7 +25,7 @@ export default function LoginScreen({ setIsLoggedIn, setUsername }) {
         setIsLoggedIn(true);
       } else {
         // Otherwise, show error alert
-        Alert.alert('Login Failed', 'User not found');
+        Alert.alert('Login Failed', 'Username or password incorrect');
       }
     } catch (error) {
       // Handle network or backend errors
