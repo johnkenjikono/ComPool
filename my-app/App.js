@@ -71,6 +71,9 @@ export default function App() {
       <View style={styles.header}>
         <Text style={styles.title}>ComPool</Text>
         <Text style={styles.slogan}>Pool Money and Compete!</Text>
+        {isLoggedIn && (
+          <Text style={[styles.slogan, { fontSize: 12, marginTop: 4, marginBottom: -12 }]}>Welcome, {username}</Text>
+        )}
       </View>
 
       {/* Tab navigation */}
