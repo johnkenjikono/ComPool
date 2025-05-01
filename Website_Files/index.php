@@ -9,6 +9,15 @@ if (!isset($_SESSION["username"])) {
 
 $username = $_SESSION["username"];
 
+// Fetch balance
+$query = "SELECT balance FROM users WHERE username = ?";
+$stmt = $db->prepare($query);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->bind_result($balance);
+$stmt->fetch();
+$stmt->close();
+
 $query = "SELECT id, group_name, username, members FROM groups ORDER BY id ASC";
 $result = $db->query($query);
 ?>
@@ -44,6 +53,7 @@ $result = $db->query($query);
 
 <div class="form-wrapper">
     <div class="form-box">
+        <p style="font-size: 18px; font-weight: bold;">Balance: $<?php echo number_format($balance, 2); ?></p>
         <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
 
         <a href="add_group.php" class="add-group-button">

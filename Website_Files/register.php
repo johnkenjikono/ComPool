@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="password" id="confirm_password" name="confirm_password" required><br><br>
 
             <button type="submit" name="confirm" class="add-group-button">
-                <img src="../images/favicon.png" alt="Icon" class="button-image">
+                <img src="images/favicon.png" alt="Icon" class="button-image">
                 <span>Register</span>
             </button>    
         </form>
