@@ -5,12 +5,40 @@ ComPool is a mobile and web application that allows users to create and manage p
 ---
 
 ## 📂 Project Overview
-- This project is **HW #3** (mobile frontend connected to the backend).
-- Web frontend and backend are continued from **HW #2**, located in the same repo.
+- This the final Project
+- Web/Mobile frontend and backend are built from previous HWs, located in the same repo.
+- Mobile app files (my-app)
+- Web Development files (HW1)
+---
+
+## 📱 Running Tests (Problem 1)
+Open terminal and cd into ComPool then:
+```
+cd HW1
+```
+```
+cd test-project
+```
+run:
+```
+php vendor/bin/phpunit tests
+```
+To run individual tests these are the following commands for each test respectively:
+```
+php vendor/bin/phpunit tests/TestGet_UserListTest.php
+php vendor/bin/phpunit tests/TestPost_CreateUserTest.php
+php vendor/bin/phpunit tests/TestPost_FailedLoginTest.php
+php vendor/bin/phpunit tests/TestPost_LoginUserTest.php
+```
 
 ---
 
-## 🚀 Setting Up the Project
+## Generative AI (Problem 2)
+
+
+
+---
+## 🚀 Setting Up the Project (Mobile)
 
 ### 🔹 1️⃣ Prerequisites
 Make sure the following tools are installed:
@@ -21,7 +49,7 @@ Make sure the following tools are installed:
 
 ---
 
-### 🔹 2️⃣ Backend Setup (database same as HW2)
+### 🔹 2️⃣ Backend Setup (database small changes from HW2)
 
 #### 📁 Database Creation in phpMyAdmin
 - Start **XAMPP**, ensure **Apache** and **MySQL** are running
@@ -29,14 +57,18 @@ Make sure the following tools are installed:
 
 #### 🛠 Create Database and Tables
 ```sql
+-- Create the database
 CREATE DATABASE IF NOT EXISTS `app-db`;
 USE `app-db`;
 
+-- Create the users table
 CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50) PRIMARY KEY,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    balance DECIMAL(10,2) DEFAULT 1000.00
 );
 
+-- Create the groups table
 CREATE TABLE IF NOT EXISTS groups (
     id INT AUTO_INCREMENT PRIMARY KEY,
     group_name VARCHAR(100) NOT NULL,
@@ -44,8 +76,10 @@ CREATE TABLE IF NOT EXISTS groups (
     group_size INT NOT NULL CHECK (group_size > 0),
     members TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    funds DECIMAL(10,2) DEFAULT 0.00,
     FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
 );
+
 ```
 
 
@@ -77,9 +111,12 @@ The final structure should look like:
 htdocs/
 ├── Controller/Api/
 │   ├── BaseController.php
-│   └── GroupController.php
+│   ├── ChatController.php
+│   ├── GroupController.php
 │   └── UserController.php
+
 │── Model/
+│   ├── ChatModel.php
 │   ├── Database.php
 │   ├── GroupModel.php
 │   └── UserModel.php
@@ -93,17 +130,14 @@ inc/config.php has your connection to the database locally make sure you changed
 
 ## 🔁 REST API Connection to our code
 
-All backend endpoints are available locally via:
-```
-http://<YOUR-IP>/index.php/
-```
-
 ✅ **Create a new file `my-app/config.js` in the project with your real IP address to connect to the database.**
 Copy and paste this into the new file (Our file is in the gitignore since it holds sensitive info)
 ```
 // config.js
 export const BASE_URL = 'http://yourIPaddress/index.php';
+export const OPENAI_API_KEY = 'sk-*****...'
 ```
+**The helpdesk feature will only work if you have a paid OpenAI API account.**
 ---
 
 ## 📱 Running the Mobile App
@@ -124,103 +158,72 @@ npm run android
 And you should see Compool running on your virtual device!
 ---
 
+## 📄 REST API Endpoints Used
 
-### 📄 Rest API Endpoints Used
-- `POST /user/create` — Register new user
-- `GET /user/list?username=...` — Check if user exists
-- `POST /group/create` — Create group
-- `GET /group/list` — Get all groups
-- `DELETE /group/delete?id=...` — Delete group
-- `PUT /group/update?id=...` — Update group
+### 🔐 User Endpoints
+- `POST /user/create` — Register new user  
+- `POST /user/login` — Login and verify password  
+- `GET /user/list?username=...` — Check if user exists  
+- `PUT /user/updatePassword?username=...` — Update user password  
+- `DELETE /user/delete?username=...` — Delete a user  
+- `GET /user/balance?username=...` — Get user’s current balance
 
-📌 **All data is JSON encoded.**
+### 👥 Group Endpoints
+- `POST /group/create` — Create new group  
+- `GET /group/list` — Get all groups  
+- `GET /group/view?id=...` — Get specific group by ID  
+- `POST /group/update?id=...` — Update group info  
+- `DELETE /group/delete?id=...` — Delete a group  
+- `POST /group/payin` — Member pays into group fund  
+- `POST /group/payout` — Leader pays out from group fund to member
 
-## 📱 Running Tests
-Open terminal and cd into ComPool then:
-```
-cd HW1
-```
-```
-cd test-project
-```
-run:
-```
-php vendor/bin/phpunit tests
-```
-To run individual tests these are the following commands for each test respectively:
-```
-php vendor/bin/phpunit tests/TestGet_UserListTest.php
-php vendor/bin/phpunit tests/TestPost_CreateUserTest.php
-php vendor/bin/phpunit tests/TestPost_FailedLoginTest.php
-php vendor/bin/phpunit tests/TestPost_LoginUserTest.php
-```
----
-
-## 🧪 Postman Screenshots
-Screenshots provided for:
-- GET
-- POST
-
-### Pierce
-![Pierce](images/PiercePostman1.png)
-![Pierce](images/PiercePostman2.png)
-### Cory
-![Cory](images/CoryPostman1.jpeg)
-![Cory](images/CoryPostman2.jpeg)
-### Kenji
-![Kenji](images/KenjiPostman1.png)
-![Kenji](images/KenjiPostman2.png)
+📌 **All requests and responses use JSON.**
 
 ---
 
 ## ✅ Features Summary
 
 ### 🔐 User Authentication
-- Login and Registration
-- Passwords hashed (PHP backend)
-- Re-entry confirmation on registration
-- Duplicate username protection
+- User registration & login with secure password hashing (PHP backend)
+- Validation for password length (≥ 10 characters)
+- Prevents duplicate usernames
+- Persistent login using AsyncStorage
+- Logout with confirmation prompt
 
-### 👥 Group Management (CRUD)
-- View all groups
-- Create new groups
-- Edit group (only if creator)
-- Delete group (only if creator)
-
-### 🧠 Validations
-- Group size must be a positive integer
+### 👥 Group Management
+- View all groups user is a part of
+- Create group with specified size and member selection
 - Group creator is auto-included
-- Cannot select more members than group size
-- Password must be ≥ 10 characters
+- Edit or delete group (only if creator)
+- Client-side validations:
+  - Group size must be a valid positive integer
+  - Cannot add more members than group size
+- Group creation screen is dynamically interactive
+- Creator and members see different UI options based on role
 
-### 🧠 Persistent Login
-- AsyncStorage keeps user logged in
-- Auto-login on app restart
-- Logout clears session
+### 💬 Group Chat
+- Per-group chat feature
+- Messages saved and fetched via REST API
+- Available to all group members
+- Clean UI for reading and sending messages
+
+### 💰 Mock Money System
+- Each user starts with a $1000 balance (simulated)
+- Each group has its own fund balance
+- Members can pay into the group (via "Pay In")
+- Group leaders can pay out funds to any group member
+- Funds update in real-time after each transaction
+- Balances displayed to users
+
+### 🧠 HelpDesk (AI Chat)
+- In-app chat interface to talk to AI assistant (GPT)
+- Uses OpenAI API (via `OPENAI_API_KEY` stored securely)
+- Scrollable chat history
+- Instant feedback and assistant support inside the app
 
 ---
 
-## 📁 File Organization
-```
-my-app/
-├── screens/
-│   ├── HomeScreen.js
-│   ├── AboutScreen.js
-│   ├── LoginScreen.js
-│   ├── RegisterScreen.js
-│   ├── GroupScreen.js
-│   └── CreateGroupScreen.js
-├── api/
-│   └── userApi.js
-│   
-├── styles.js
-├── config.js
-├── App.js
-```
-
----
-
-Split: 36/32/32
+Split: 33/33/33
 (Pierce/Cory/Kenji)
 
 

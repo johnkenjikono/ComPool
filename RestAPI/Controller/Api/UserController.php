@@ -83,8 +83,9 @@ class UserController extends BaseController
 
                 $responseData = json_encode([
                     "success" => $result,
-                    "message" => $result ? "User created successfully." : "Failed to create user."
+                    "message" => $result ? "User created successfully." : "Username already exists."
                 ]);
+                
             } catch (Exception $e) {
                 $strErrorDesc = $e->getMessage();
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -211,4 +212,140 @@ class UserController extends BaseController
             );
         }
     }
+
+    /**
+     * Handle POST requests to /user/login
+     * Verifies username and password
+     */
+    public function loginAction()
+    {
+        $strErrorDesc = '';
+        $requestMethod = $_SERVER["REQUEST_METHOD"];
+
+        if (strtoupper($requestMethod) == 'POST') {
+            try {
+                // Read and parse JSON body
+                $rawInput = file_get_contents("php://input");
+                $postData = json_decode($rawInput, true);
+
+                $username = trim($postData['username'] ?? '');
+                $password = trim($postData['password'] ?? '');
+
+                // Validate input
+                if ($username === '' || $password === '') {
+                    throw new Exception("Username and password are required.");
+                }
+
+                $userModel = new UserModel();
+                $users = $userModel->getUserByUsername($username); // get all matching users
+                $user = $users[0] ?? null; // pick the first one
+
+                if (!$user) {
+                    // Username not found
+                    $responseData = json_encode(['success' => false, 'message' => 'Invalid username or password.']);
+                } else {
+                    // Check password
+                    if (password_verify($password, $user['password'])) {
+                        $responseData = json_encode(['success' => true]);
+                    } else {
+                        $responseData = json_encode(['success' => false, 'message' => 'Invalid username or password.']);
+                    }
+                }
+            } catch (Exception $e) {
+                $strErrorDesc = $e->getMessage();
+                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+            }
+        } else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+
+        // Return response
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $responseData,
+                ['Content-Type: application/json', 'HTTP/1.1 200 OK']
+            );
+        } else {
+            $this->sendOutput(
+                json_encode(['error' => $strErrorDesc]),
+                ['Content-Type: application/json', $strErrorHeader]
+            );
+        }
+    }
+
+    public function balanceAction()
+    {
+        $requestMethod = $_SERVER["REQUEST_METHOD"];
+        $arrQueryStringParams = $this->getQueryStringParams();
+
+        if (strtoupper($requestMethod) == 'GET') {
+            $username = $arrQueryStringParams['username'] ?? null;
+
+            if (!$username) {
+                return $this->sendOutput(
+                    json_encode(['error' => 'Username is required']),
+                    ['Content-Type: application/json', 'HTTP/1.1 400 Bad Request']
+                );
+            }
+
+            $userModel = new UserModel();
+            $balance = $userModel->getUserBalance($username);
+
+            if ($balance === null) {
+                return $this->sendOutput(
+                    json_encode(['error' => 'User not found']),
+                    ['Content-Type: application/json', 'HTTP/1.1 404 Not Found']
+                );
+            }
+
+            return $this->sendOutput(
+                json_encode(['balance' => $balance]),
+                ['Content-Type: application/json', 'HTTP/1.1 200 OK']
+            );
+        }
+
+        return $this->sendOutput(
+            json_encode(['error' => 'Method not allowed']),
+            ['Content-Type: application/json', 'HTTP/1.1 405 Method Not Allowed']
+        );
+    }
+
+
+    public function setBalanceAction()
+    {
+        if ($_SERVER["REQUEST_METHOD"] !== 'POST') {
+            return $this->sendOutput(
+                json_encode(['error' => 'Method not allowed']),
+                ['Content-Type: application/json', 'HTTP/1.1 405 Method Not Allowed']
+            );
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+        $username = $data['username'] ?? null;
+        $amount = floatval($data['amount'] ?? -1);
+
+        if (!$username || $amount < 0) {
+            return $this->sendOutput(
+                json_encode(['error' => 'Missing or invalid input']),
+                ['Content-Type: application/json', 'HTTP/1.1 400 Bad Request']
+            );
+        }
+
+        $userModel = new UserModel();
+        $result = $userModel->updateUserBalance($username, $amount);
+
+        if ($result) {
+            return $this->sendOutput(
+                json_encode(['success' => true]),
+                ['Content-Type: application/json', 'HTTP/1.1 200 OK']
+            );
+        } else {
+            return $this->sendOutput(
+                json_encode(['success' => false, 'message' => 'Update failed']),
+                ['Content-Type: application/json', 'HTTP/1.1 500 Internal Server Error']
+            );
+        }
+    }
+
 }

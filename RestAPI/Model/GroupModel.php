@@ -67,4 +67,37 @@ class GroupModel extends Database
 
         return $result;
     }
+
+    public function addFundsToGroup($groupId, $amount)
+    {
+        $query = "UPDATE groups SET funds = funds + ? WHERE id = ?";
+        $stmt = $this->connection->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Failed to prepare addFundsToGroup.");
+        }
+        $stmt->bind_param("di", $amount, $groupId);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
+    public function addFundsToUser($username, $amount)
+    {
+        $query = "UPDATE users SET balance = balance + ? WHERE username = ?";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param("ds", $amount, $username);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+    
+    public function deductFundsFromGroup($groupId, $amount) {
+        $query = "UPDATE groups SET funds = funds - ? WHERE id = ?";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param("di", $amount, $groupId);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
 }
