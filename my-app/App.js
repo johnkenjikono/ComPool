@@ -15,6 +15,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import GroupScreen from './screens/GroupScreen';
 import CreateGroupScreen from './screens/CreateGroupScreen';
 import GroupChatScreen from './screens/GroupChatScreen';
+import HelpDeskScreen from './screens/HelpDeskScreen';
 
 
 
@@ -71,6 +72,9 @@ export default function App() {
       <View style={styles.header}>
         <Text style={styles.title}>ComPool</Text>
         <Text style={styles.slogan}>Pool Money and Compete!</Text>
+        {isLoggedIn && (
+          <Text style={[styles.slogan, { fontSize: 12, marginTop: 4, marginBottom: -12 }]}>Welcome, {username}</Text>
+        )}
       </View>
 
       {/* Tab navigation */}
@@ -101,6 +105,10 @@ export default function App() {
                   <Button title="Log Out" onPress={handleLogout} />
                 </View>
               )}
+            </Tab.Screen>
+
+            <Tab.Screen name="Help">
+              {() => <HelpDeskScreen />}
             </Tab.Screen>
           </>
         )}

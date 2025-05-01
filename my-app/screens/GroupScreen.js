@@ -7,11 +7,28 @@ import { BASE_URL } from '../config';
 export default function GroupScreen({ username }) {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [balance, setBalance] = useState(null); // ✅ NEW STATE
   const navigation = useNavigation();
+
+  // ✅ Fetch balance on mount
+  useEffect(() => {
+    const fetchBalance = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/user/balance?username=${username}`);
+        const data = await res.json();
+        setBalance(data.balance);
+      } catch (err) {
+        console.error('Error fetching balance:', err);
+        setBalance(null);
+      }
+    };
+    fetchBalance();
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
       fetchGroups();
+      fetchBalance();
     }, [])
   );
 
@@ -20,6 +37,16 @@ export default function GroupScreen({ username }) {
       editMode: true,
       group,
     });
+  };
+
+  const fetchBalance = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/user/balance?username=${username}`);
+      const data = await res.json();
+      setBalance(data.balance);
+    } catch (err) {
+      console.error('Error fetching balance:', err);
+    }
   };
 
   const fetchGroups = async () => {
@@ -53,7 +80,6 @@ export default function GroupScreen({ username }) {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
             <View style={{ flex: 1, marginRight: 5 }}>
               <Button title="Details" onPress={() => handleDetails(item)} />
-
             </View>
             <View style={{ flex: 1 }}>
               <Button
@@ -70,7 +96,11 @@ export default function GroupScreen({ username }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Groups</Text>
+      {/* ✅ USER BALANCE DISPLAY */}
+      <Text style={styles.title}>
+      My Balance: {balance !== null ? `$${Number(balance).toFixed(2)}` : 'Loading...'}
+      </Text>
+
 
       {/* Add Create Group button at the top */}
       <View style={{ marginVertical: 10 }}>
