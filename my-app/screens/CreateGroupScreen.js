@@ -22,6 +22,8 @@ export default function CreateGroupScreen({ username }) {
   const [groupFunds, setGroupFunds] = useState(null);
   const [payOutAmount, setPayOutAmount] = useState('');
   const [selectedPayoutMember, setSelectedPayoutMember] = useState(null);
+  const [payoutDropdownOpen, setPayoutDropdownOpen] = useState(false);
+
 
   // State for dropdown (selecting members)
   const [allUsers, setAllUsers] = useState([]); // all users except current
@@ -134,6 +136,111 @@ export default function CreateGroupScreen({ username }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
+
+{isEdit && (
+      <View style={{ marginTop: -2, marginBottom: 12 }}>
+        <Text style={styles.label}>
+          Group Balance: ${groupFunds !== null ? parseFloat(groupFunds).toFixed(2) : 'Loading...'}
+        </Text>
+
+        {!isCreator && (
+          <>
+            <Text style={styles.label}>Enter amount to pay in:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="e.g. 50"
+              keyboardType="numeric"
+              value={payInAmount}
+              onChangeText={setPayInAmount}
+            />
+            <Button
+              title="Pay In"
+              onPress={async () => {
+                try {
+                  const response = await fetch(`${BASE_URL}/group/payin`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      group_id: groupData.id,
+                      username: username,
+                      amount: parseFloat(payInAmount),
+                    }),
+                  });
+                  const result = await response.json();
+                  if (result.error) {
+                    Alert.alert('Error', result.error);
+                  } else {
+                    Alert.alert('Success', 'Funds added!');
+                    setPayInAmount('');
+                    // Refresh group funds
+                    const updated = await fetch(`${BASE_URL}/group/view?id=${groupData.id}`);
+                    const newData = await updated.json();
+                    setGroupFunds(newData[0].funds);
+                  }
+                } catch (err) {
+                  console.error('Pay in failed:', err);
+                  Alert.alert('Error', 'Could not process payment');
+                }
+              }}
+            />
+          </>
+        )}
+        {isCreator && (
+        <>
+          <Text style={styles.label}>Choose recipient for payout:</Text>
+          <DropDownPicker
+            open={payoutDropdownOpen}
+            value={selectedPayoutMember}
+            items={selectedMembers.map(member => ({
+              label: member,
+              value: member,
+            }))}
+            setOpen={setPayoutDropdownOpen}
+            setValue={setSelectedPayoutMember}
+            setItems={() => {}}
+            placeholder="Select recipient"
+            style={{ marginBottom: 10 }}
+          />
+
+          <Button
+            title="Payout Full Balance"
+            onPress={async () => {
+              if (!selectedPayoutMember) {
+                Alert.alert('Error', 'Please select a recipient.');
+                return;
+              }
+
+              try {
+                const response = await fetch(`${BASE_URL}/group/payout`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    group_id: groupData.id,
+                    from_username: username,
+                    to_username: selectedPayoutMember,
+                    amount: groupFunds,
+                  }),
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                  Alert.alert('Success', 'Payout completed!');
+                  setGroupFunds(0); // update local balance view
+                } else {
+                  Alert.alert('Error', result.error || 'Failed to process payout.');
+                }
+              } catch (err) {
+                console.error('Payout error:', err);
+                Alert.alert('Error', 'Something went wrong.');
+              }
+            }}
+          />
+        </>
+      )}
+
+      </View>
+    )}
+
       {/* Group Name Input */}
       <Text style={styles.label}>Group Name:</Text>
       <TextInput
@@ -227,62 +334,6 @@ export default function CreateGroupScreen({ username }) {
           />
         </View>
       )}
-    
-
-
-    {isEdit && (
-      <View style={{ marginTop: 30 }}>
-        <Text style={styles.label}>
-          Group Balance: ${groupFunds !== null ? parseFloat(groupFunds).toFixed(2) : 'Loading...'}
-        </Text>
-
-        {!isCreator && (
-          <>
-            <Text style={styles.label}>Enter amount to pay in:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="e.g. 50"
-              keyboardType="numeric"
-              value={payInAmount}
-              onChangeText={setPayInAmount}
-            />
-            <Button
-              title="Pay In"
-              onPress={async () => {
-                try {
-                  const response = await fetch(`${BASE_URL}/group/payin`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      group_id: groupData.id,
-                      username: username,
-                      amount: parseFloat(payInAmount),
-                    }),
-                  });
-                  const result = await response.json();
-                  if (result.error) {
-                    Alert.alert('Error', result.error);
-                  } else {
-                    Alert.alert('Success', 'Funds added!');
-                    setPayInAmount('');
-                    // Refresh group funds
-                    const updated = await fetch(`${BASE_URL}/group/view?id=${groupData.id}`);
-                    const newData = await updated.json();
-                    setGroupFunds(newData[0].funds);
-                  }
-                } catch (err) {
-                  console.error('Pay in failed:', err);
-                  Alert.alert('Error', 'Could not process payment');
-                }
-              }}
-            />
-          </>
-        )}
-
-        
-        
-      </View>
-    )}
 
     </KeyboardAvoidingView>
   );
