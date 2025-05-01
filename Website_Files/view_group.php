@@ -15,7 +15,7 @@ if (!isset($_GET["id"])) {
 $group_id = intval($_GET["id"]);
 $username = $_SESSION["username"];
 
-$query = "SELECT id, group_name, username, group_size, members FROM groups WHERE id = ?";
+$query = "SELECT id, group_name, username, group_size, members, funds FROM groups WHERE id = ?";
 $stmt = $db->prepare($query);
 $stmt->bind_param("i", $group_id);
 $stmt->execute();
@@ -82,6 +82,26 @@ $members_list = explode(",", $group["members"]);
             <p><strong>Group Name:</strong> <?php echo htmlspecialchars($group["group_name"]); ?></p>
             <p><strong>Created By:</strong> <?php echo htmlspecialchars($group["username"]); ?></p>
             <p><strong>Group Size:</strong> <?php echo $group["group_size"]; ?></p>
+            <p><strong>Funds:</strong> $<?php echo number_format($group["funds"], 2); ?></p>
+
+            <!-- ✅ Deposit Funds Button -->
+<div style="text-align: center; margin-top: 15px;">
+    <a href="deposit.php?group_id=<?php echo $group["id"]; ?>" class="add-group-button">
+        <img src="images/teamwork.png" alt="Teamwork Image" class="button-image">
+        <span>+ Deposit Funds</span>
+    </a>
+</div>
+
+<!-- ✅ Payout Funds Button (only for group leader) -->
+<?php if ($username === $group["username"]): ?>
+    <div style="text-align: center; margin-top: 0px;">
+        <a href="payout.php?group_id=<?php echo $group["id"]; ?>" class="add-group-button">
+            <img src="images/favicon.png" alt="compool Image" class="button-image">
+            <span>+ Payout Funds</span>
+        </a>
+    </div>
+<?php endif; ?>
+
         </div>
 
         <div class="group-section">

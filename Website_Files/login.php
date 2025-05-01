@@ -25,21 +25,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["username"] = $userid;
                 $_SESSION["logged_in"] = true;
 
-                // Send 201 Created response indicating login session created
-                http_response_code(201);
-                echo json_encode(['message' => 'Login successful, session created']);
+                // Redirect to index.php after successful login
+                header("Location: index.php");
                 exit(); // Make sure to stop further execution
             } else {
-                // Incorrect password: return 401 Unauthorized with error message
-                http_response_code(401);
-                echo json_encode(['message' => 'Wrong User ID or password.']);
-                exit(); // Ensure no HTML is outputted and stop further execution
+                // Incorrect password: return error message
+                $error = "Wrong User ID or password.";
             }
         } else {
-            // User not found: return 401 Unauthorized with error message
-            http_response_code(401);
-            echo json_encode(['message' => 'Wrong User ID or password.']);
-            exit(); // Ensure no HTML is outputted and stop further execution
+            // User not found: return error message
+            $error = "Wrong User ID or password.";
         }
         mysqli_stmt_close($stmt);
     }
@@ -111,4 +106,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
-?>
