@@ -8,13 +8,13 @@ ComPool is a mobile and web application that allows users to create and manage p
 - This the final Project
 - Web/Mobile frontend and backend are built from previous HWs, located in the same repo.
 - Mobile app files (my-app)
-- Web Development files (HW1)
+- Web Development files (Website_Files)
 ---
 
 ## 📱 Running Tests (Problem 1)
 Open terminal and cd into ComPool then:
 ```
-cd HW1
+cd Website_Files
 ```
 ```
 cd test-project
