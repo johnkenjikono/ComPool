@@ -18,10 +18,24 @@ export default function HelpDeskScreen() {
 
   const sendToGPT = async () => {
     const newMessage = { role: 'user', content: input };
-    const updatedChat = [...chat, newMessage];
-    setChat(updatedChat);
+    const updatedChat = [...chat, newMessage]; // what we display
+  
+    setChat(updatedChat); // update visible messages
     setInput('');
+  
+    // system message is only sent to OpenAI, not stored in state
+    const messagesForAPI = [
+      {
+        role: 'system',
+        content: `You are a helpful assistant for a mobile app called ComPool. 
+        ComPool is a platform where users can create groups, pool mock money, chat, and manage group balances. 
+        Users can create accounts, log in, view and join groups, pay into group funds, and group leaders can pay out funds to members. 
+        Your job is to explain features, guide users through app usage, and answer help questions clearly. `,
 
+        },
+      ...updatedChat,
+    ];
+  
     try {
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -31,24 +45,25 @@ export default function HelpDeskScreen() {
         },
         body: JSON.stringify({
           model: 'gpt-3.5-turbo',
-          messages: updatedChat,
+          messages: messagesForAPI,
         }),
       });
-
-    const data = await response.json();
-    const reply = data.choices?.[0]?.message;
-
-    if (reply && reply.role && reply.content) {
-    setChat([...updatedChat, reply]);
-    } else {
-    console.warn("Invalid reply from OpenAI:", data);
-    Alert.alert('Error', 'Invalid response from AI. Try again later.');
-    }
-
+  
+      const data = await response.json();
+      const reply = data.choices?.[0]?.message;
+  
+      if (reply && reply.role && reply.content) {
+        setChat([...updatedChat, reply]); // display only user + assistant messages
+      } else {
+        console.warn('Invalid reply from OpenAI:', data);
+        Alert.alert('Error', 'Invalid response from AI. Try again later.');
+      }
     } catch (error) {
       console.error('Error:', error);
+      Alert.alert('Error', 'Failed to reach AI service.');
     }
   };
+  
 
   return (
     <KeyboardAvoidingView
@@ -59,7 +74,7 @@ export default function HelpDeskScreen() {
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 80 }}>
           {chat.map((msg, i) => (
             <Text key={i} style={{ marginVertical: 5 }}>
-              <Text style={{ fontWeight: 'bold' }}>{msg.role === 'user' ? 'You: ' : 'HelpBot: '}</Text>
+              <Text style={{ fontWeight: 'bold' }}>{msg.role === 'user' ? 'You: ' : 'CompBot: '}</Text>
               {msg.content}
             </Text>
           ))}
