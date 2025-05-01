@@ -35,6 +35,15 @@ php vendor/bin/phpunit tests/TestPost_LoginUserTest.php
 
 ## Generative AI (Problem 2)
 
+After writing our four tests we found out that we didn't pass any of them. So we were able to use generative AI tools to scan through the tests we wrote and help us debug it. It gave us useful suggestion to see what the source of the error is such as coding in echo statements and using
+```
+php vendor/bin/phpunit  -debug tests/*name of test*.
+```
+After passing it the responses from the terminal it was able to further help us in fixing our issues in our code.
+
+For the TestPost_LoginUserTest.php we realized that there was a more complicated issue, so we asked it how we could use Postman to test our login function. Through Postman we were able to get slightly more concise error code so we could figure out that we were using the wrong URL in the tests as well as not starting a new session each time someone logged in. We fixed these issues within the login.php file until the postman response code matched what we needed from the test. After we solved it in postman, the code also passed the test we wrote.
+
+Overall, we used generative AI throughout the testing process to help modify and fix our test files and debug issues in our actual code to pass the tests. Most importantly AI helped us fix snall holes in our test files so that we were able to thoroughly test each function of our site. 
 
 
 ---
