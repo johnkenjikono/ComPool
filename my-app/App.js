@@ -15,6 +15,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import GroupScreen from './screens/GroupScreen';
 import CreateGroupScreen from './screens/CreateGroupScreen';
 import GroupChatScreen from './screens/GroupChatScreen';
+import HelpDeskScreen from './screens/HelpDeskScreen';
 
 
 
@@ -104,6 +105,10 @@ export default function App() {
                   <Button title="Log Out" onPress={handleLogout} />
                 </View>
               )}
+            </Tab.Screen>
+
+            <Tab.Screen name="Help">
+              {() => <HelpDeskScreen />}
             </Tab.Screen>
           </>
         )}
